@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html_code = """<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
@@ -150,8 +150,6 @@
     }
 
     p { margin-bottom: 0.85rem; font-size: 0.96rem; }
-    ul.clean-list { margin: 0.5rem 0 1rem 1.25rem; font-size: 0.95rem; }
-    ul.clean-list li { margin-bottom: 0.55rem; }
 
     /* Buttons */
     .btn {
@@ -166,19 +164,30 @@
       border-radius: 10px;
       border: none;
       cursor: pointer;
-      transition: transform 0.15s ease, background 0.2s ease;
+      transition: transform 0.15s ease, background 0.2s ease, opacity 0.2s ease;
       text-decoration: none;
     }
 
-    .btn:active { transform: scale(0.97); }
+    .btn:active:not(:disabled) { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(15, 118, 110, 0.25); }
-    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-primary:hover:not(:disabled) { background: var(--primary-dark); }
     .btn-accent { background: var(--accent); color: #fff; box-shadow: 0 4px 10px rgba(217, 119, 6, 0.25); }
-    .btn-accent:hover { background: #b45309; }
+    .btn-accent:hover:not(:disabled) { background: #b45309; }
     .btn-secondary { background: #e2e8f0; color: #1e293b; }
-    .btn-secondary:hover { background: #cbd5e1; }
+    .btn-secondary:hover:not(:disabled) { background: #cbd5e1; }
     .btn-outline { background: #fff; color: var(--primary); border: 2px solid var(--primary); }
-    .btn-outline:hover { background: var(--primary-light); }
+    .btn-outline:hover:not(:disabled) { background: var(--primary-light); }
+    .btn-danger-sm {
+      background: var(--danger-bg); color: var(--danger); border: 1px solid #fca5a5;
+      padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+    }
+    .btn-danger-sm:hover { background: var(--danger); color: #fff; }
+    .btn-edit-sm {
+      background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc;
+      padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+    }
+    .btn-edit-sm:hover { background: #0284c7; color: #fff; }
 
     .test-launcher {
       margin-top: 1.35rem;
@@ -283,6 +292,20 @@
     .callout-title { font-weight: 700; color: var(--primary-dark); margin-bottom: 0.35rem; font-size: 0.96rem; }
     .callout p { margin-bottom: 0.3rem; font-size: 0.92rem; }
 
+    /* Explorer Row Styles */
+    .exp-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+      padding: 0.45rem 0.65rem; border-bottom: 1px dashed #e2e8f0; border-radius: 6px;
+      transition: background 0.15s;
+    }
+    .exp-row:hover { background: #f8fafc; }
+    .exp-row.new-folder { background: #fef3c7; border: 1px dashed #d97706; }
+    .exp-actions { display: flex; gap: 0.35rem; flex-shrink: 0; }
+    .rename-input {
+      font-family: inherit; font-size: 0.88rem; font-weight: 700; padding: 0.2rem 0.5rem;
+      border: 2px solid var(--primary); border-radius: 6px; width: 210px; max-width: 100%;
+    }
+
     /* Practice Views Shared Styles */
     .practice-header {
       display: flex;
@@ -303,23 +326,60 @@
       padding: 1.35rem;
       margin-bottom: 1rem;
     }
+    .quiz-top-meta {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
     .quiz-badge {
       display: inline-block;
       background: var(--primary);
       color: #fff;
       font-size: 0.78rem;
       font-weight: 700;
-      padding: 0.2rem 0.7rem;
+      padding: 0.25rem 0.75rem;
       border-radius: 999px;
-      margin-bottom: 0.65rem;
     }
-    .quiz-question { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
+    .quiz-type-tag {
+      font-size: 0.78rem; font-weight: 700; color: var(--accent); background: var(--accent-light);
+      padding: 0.2rem 0.65rem; border-radius: 999px; border: 1px solid #fcd34d;
+    }
+    .quiz-question { font-size: 1.08rem; font-weight: 700; margin-bottom: 1rem; color: var(--text); }
     .quiz-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.65rem; }
     .opt-btn {
       background: #fff; border: 2px solid #94a3b8; border-radius: 10px; padding: 0.75rem 1rem;
       text-align: left; font-weight: 600; font-size: 0.92rem; cursor: pointer; transition: 0.15s;
     }
     .opt-btn:hover { border-color: var(--primary); background: var(--primary-light); }
+
+    /* Isian Singkat */
+    .fill-row { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+    .fill-input {
+      font-size: 1rem; font-weight: 700; padding: 0.6rem 0.9rem; border: 2px solid #94a3b8;
+      border-radius: 10px; width: 250px; max-width: 100%;
+    }
+    .fill-input:focus { outline: none; border-color: var(--primary); }
+
+    /* Pengurutan Langkah (Ordering) */
+    .order-list { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.85rem; }
+    .order-item {
+      background: #fff; border: 2px solid #94a3b8; border-radius: 10px; padding: 0.6rem 0.85rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-weight: 600; font-size: 0.92rem;
+    }
+    .order-arrows { display: flex; gap: 0.3rem; }
+    .arrow-btn {
+      background: #e2e8f0; border: none; border-radius: 6px; padding: 0.25rem 0.55rem; font-weight: 700; cursor: pointer;
+    }
+    .arrow-btn:hover { background: var(--primary); color: #fff; }
+
+    /* Pencocokan Pasangan (Matching) */
+    .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.85rem; }
+    .match-col { display: flex; flex-direction: column; gap: 0.55rem; }
+    .match-btn {
+      background: #fff; border: 2px solid #94a3b8; border-radius: 10px; padding: 0.65rem 0.8rem;
+      font-weight: 600; font-size: 0.88rem; text-align: left; cursor: pointer; min-height: 54px;
+    }
+    .match-btn.sel { border-color: #0284c7; background: #e0f2fe; }
+    .match-btn.done { border-color: var(--success); background: var(--success-bg); color: #14532d; cursor: default; }
 
     .feedback-box {
       margin-top: 1rem;
@@ -331,6 +391,10 @@
     .feedback-box.err { background: var(--danger-bg); border: 1.5px solid var(--danger); color: #7f1d1d; }
 
     footer { text-align: center; color: var(--muted); font-size: 0.84rem; margin-top: 2rem; padding: 0 1rem; }
+
+    @media (max-width: 640px) {
+      .match-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -355,7 +419,7 @@
         <h1>MODUL BACAAN &amp; PANDUAN VISUAL BELAJAR MANDIRI</h1>
         <p class="subtitle">Pegangan Resmi Siswa Kelas VIII SMP — Informatika</p>
         <div class="intro-box">
-          Halo teman-teman kelas VIII! Modul visual interaktif ini disiapkan khusus sebagai pegangan belajar mandirimu di rumah maupun di kelas. Pelajari fitur aplikasi pengolah kata, manajemen file dan ekstensi, serta cara kerja komponen komputer dan siklus CPU melalui ilustrasi bergerak di bawah ini, lalu uji pemahamanmu lewat latihan interaktif di setiap bab!
+          Halo teman-teman kelas VIII! Modul visual interaktif ini disiapkan khusus sebagai pegangan belajar mandirimu di rumah maupun di kelas. Pelajari fitur aplikasi pengolah kata, manajemen file dan ekstensi, serta cara kerja komponen komputer dan siklus CPU melalui ilustrasi bergerak di bawah ini, lalu selesaikan tantangan latihan di setiap bab!
         </div>
       </header>
 
@@ -370,11 +434,13 @@
         </div>
         <div class="info-item">
           <span>Mode Belajar</span>
-          <strong>Visual Animasi + Tes Praktik Langsung</strong>
+          <strong>Visual Animasi + Kuis Bertahap</strong>
         </div>
       </div>
 
+      <!-- =================================================================== -->
       <!-- BAB 1 -->
+      <!-- =================================================================== -->
       <section id="bab1" class="bab">
         <h2 class="bab-title">BAB 1. APLIKASI PENGOLAH KATA &amp; MANAJEMEN CLIPBOARD</h2>
         <p>
@@ -437,45 +503,33 @@
         </figure>
 
         <h3 class="sub-title">B. Tampilan Utama &amp; Bagian Antarmuka Pengolah Kata (Klik Nomor Bagian!)</h3>
-        <p>
-          Kenali 6 bagian utama jendela aplikasi pengolah kata pada simulasi visual di bawah ini. <em>Sentuh atau klik lingkaran nomor [1] hingga [6] pada gambar untuk melihat fungsi masing-masing bagian!</em>
-        </p>
-
         <div class="sim-box">
           <div class="sim-title">SIMULASI INTERAKTIF ANTARMUKA PENGOLAH KATA (KLIK PIN NOMOR 1–6)</div>
           <svg viewBox="0 0 860 320" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; border-radius:10px; border:2px solid #94a3b8; background:#e2e8f0;">
-            <!-- Title Bar -->
             <rect x="0" y="0" width="860" height="36" fill="#0f766e" style="cursor:pointer;" onclick="selectUiPart(2)"/>
             <text x="430" y="23" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#ffffff" pointer-events="none">Laporan_Praktikum_Kelas8.docx — Word</text>
-            <!-- Quick Access -->
             <rect x="8" y="5" width="112" height="26" rx="5" fill="#115e59" stroke="#5eead4" style="cursor:pointer;" onclick="selectUiPart(1)"/>
             <text x="64" y="22" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#ccfbf1" pointer-events="none">💾 ↩️ ↪️ QAT</text>
-            <!-- Ribbon -->
             <rect x="0" y="36" width="860" height="66" fill="#ffffff" stroke="#cbd5e1" style="cursor:pointer;" onclick="selectUiPart(3)"/>
             <rect x="14" y="44" width="66" height="22" rx="5" fill="#0f766e" pointer-events="none"/>
             <text x="47" y="59" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#fff" pointer-events="none">Home</text>
             <text x="115" y="59" font-size="11.5" font-weight="600" fill="#475569" pointer-events="none">Insert      Layout      References      Review      View</text>
             <rect x="14" y="71" width="832" height="24" rx="5" fill="#f1f5f9" pointer-events="none"/>
             <text x="26" y="87" font-size="11.5" fill="#1e293b" pointer-events="none">Calibri (Body) ▾  |  12 ▾  |   B   I   U   |   ≡   ≣   |   🔍 Find &amp; Replace</text>
-            <!-- Ruler -->
             <rect x="0" y="102" width="860" height="22" fill="#f8fafc" stroke="#cbd5e1" style="cursor:pointer;" onclick="selectUiPart(4)"/>
             <text x="430" y="117" text-anchor="middle" font-size="10.5" fill="#64748b" letter-spacing="4" pointer-events="none">|---1---|---2---|---3---|---4---|---5---|---6---|---7---|---8---|</text>
-            <!-- Workspace -->
             <rect x="110" y="134" width="640" height="148" fill="#ffffff" stroke="#94a3b8" style="cursor:pointer;" onclick="selectUiPart(5)"/>
             <text x="140" y="164" font-size="15" font-weight="bold" fill="#0f766e" pointer-events="none">BAB 1. APLIKASI PENGOLAH KATA</text>
             <line x1="140" y1="180" x2="710" y2="180" stroke="#cbd5e1" stroke-width="3.5" pointer-events="none"/>
             <line x1="140" y1="196" x2="670" y2="196" stroke="#cbd5e1" stroke-width="3.5" pointer-events="none"/>
             <line x1="140" y1="212" x2="590" y2="212" stroke="#cbd5e1" stroke-width="3.5" pointer-events="none"/>
             <text x="140" y="246" font-size="12.5" font-weight="600" fill="#d97706" pointer-events="none">👉 Klik nomor [1] sampai [6] untuk memindahkan kotak sorotan!</text>
-            <!-- Status Bar -->
             <rect x="0" y="292" width="860" height="28" fill="#1e293b" style="cursor:pointer;" onclick="selectUiPart(6)"/>
             <text x="20" y="310" font-size="11.5" fill="#f1f5f9" pointer-events="none">Halaman 1 dari 1    |    140 Kata    |    Bahasa Indonesia</text>
             <text x="765" y="310" font-size="11.5" fill="#f1f5f9" pointer-events="none">➖  100%  ➕</text>
 
-            <!-- Kotak Sorotan Aktif -->
             <rect id="uiHighlightBox" x="6" y="3" width="116" height="30" rx="5" fill="none" stroke="#f59e0b" stroke-width="3.5" class="anim-pulse-border"/>
 
-            <!-- Pin Nomor -->
             <g style="cursor:pointer;" onclick="selectUiPart(1)"><circle cx="132" cy="18" r="12" fill="#d97706"/><text x="132" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">1</text></g>
             <g style="cursor:pointer;" onclick="selectUiPart(2)"><circle cx="620" cy="18" r="12" fill="#d97706"/><text x="620" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">2</text></g>
             <g style="cursor:pointer;" onclick="selectUiPart(3)"><circle cx="825" cy="68" r="12" fill="#d97706"/><text x="825" y="72" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">3</text></g>
@@ -532,10 +586,6 @@
         </div>
 
         <h3 class="sub-title">D. Simulasi Bergerak: Fitur Kombinasi Copy, Cut, dan Paste</h3>
-        <p>
-          Perintah <strong>Copy (Ctrl+C)</strong> menggandakan data ke memori sementara bernama <strong>Clipboard (RAM)</strong> tanpa menghapus data asli, sedangkan <strong>Cut (Ctrl+X)</strong> memindahkan data ke Clipboard sehingga data asli terhapus setelah ditempel dengan <strong>Paste (Ctrl+V)</strong>.
-        </p>
-
         <div class="sim-box">
           <div class="sim-title">SIMULASI INTERAKTIF CLIPBOARD (COBA KLIK COPY ATAU CUT LALU PASTE)</div>
           <div style="margin-bottom:0.85rem; display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem;">
@@ -572,17 +622,10 @@
           <div class="sim-result" id="ccpOutput">Status: Silakan klik tombol Copy atau Cut terlebih dahulu.</div>
         </div>
 
-        <div class="callout">
-          <div class="callout-title">Tips Penting Penggunaan Save vs Save As:</div>
-          <p>• <strong>Save (Ctrl + S):</strong> Menyimpan pembaruan isi pada file lama tanpa mengubah nama maupun lokasi foldernya.</p>
-          <p>• <strong>Save As (F12):</strong> Menyimpan dokumen sebagai salinan file baru dengan nama baru, lokasi folder baru, atau format ekstensi baru (misalnya ekspor ke <code>.pdf</code>).</p>
-        </div>
-
-        <!-- Tombol Tes Bab 1 -->
         <div class="test-launcher">
           <div class="test-launcher-text">
-            <strong>Uji Pemahaman Bab 1 (Kuis Interaktif)</strong>
-            <span>Latihan langsung mengenali bagian jendela pengolah kata, shortcut keyboard, dan cara kerja Clipboard!</span>
+            <strong>Uji Pemahaman Bab 1 (Variasi Soal Bertahap)</strong>
+            <span>Selesaikan setiap soal (Isian Shortcut, Urutan Langkah, &amp; Pilihan Ganda) untuk membuka soal berikutnya!</span>
           </div>
           <div class="launcher-btns">
             <button class="btn btn-primary" onclick="openPractice('bab1Practice')">📝 Mulai Latihan Bab 1</button>
@@ -590,31 +633,360 @@
         </div>
       </section>
 
-      <!-- SLOT OTOMATIS UNTUK BAB 2 & BAB 3 -->
-      <div id="extraChaptersSlot"></div>
+      <!-- =================================================================== -->
+      <!-- BAB 2 -->
+      <!-- =================================================================== -->
+      <section id="bab2" class="bab">
+        <h2 class="bab-title">BAB 2. MANAJEMEN FILE, FOLDER &amp; EKSTENSI BERKAS</h2>
+        <p>
+          <strong>File (Berkas)</strong> adalah satuan data atau informasi digital yang tersimpan di media penyimpanan komputer/HP (seperti dokumen tugas, foto, lagu, atau video). Sementara itu, <strong>Folder (Direktori)</strong> adalah wadah virtual yang digunakan untuk mengelompokkan berbagai file maupun subfolder agar tertata rapi, terstruktur, dan mudah ditemukan kembali.
+        </p>
+
+        <h3 class="sub-title">A. Manajemen File &amp; Folder pada Laptop, HP, dan Cloud Storage</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Platform / Media</th>
+                <th>Aplikasi Bawaan &amp; Pihak Ketiga</th>
+                <th>Langkah Membuat Folder Baru</th>
+                <th>Karakteristik Penyimpanan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Laptop / PC</strong><br>(Windows / macOS)</td>
+                <td>Windows File Explorer, Finder (macOS), Total Commander</td>
+                <td>Klik kanan di area kosong &rarr; <strong>New</strong> &rarr; <strong>Folder</strong> (atau tekan <code>Ctrl + Shift + N</code>) &rarr; ketik nama &rarr; <strong>Enter</strong>.</td>
+                <td>Tersimpan lokal di Harddisk (HDD) atau SSD; akses sangat cepat tanpa butuh internet.</td>
+              </tr>
+              <tr>
+                <td><strong>Smartphone (HP)</strong><br>(Android / iOS)</td>
+                <td>Files by Google, File Manager bawaan, File Apple (iOS), ZArchiver</td>
+                <td>Buka File Manager &rarr; masuk ke <em>Penyimpanan Internal</em> &rarr; ketuk ikon <strong>titik tiga / tambah (+)</strong> &rarr; pilih <strong>Buat Folder Baru</strong>.</td>
+                <td>Tersimpan di memori internal HP atau kartu memori eksternal (MicroSD).</td>
+              </tr>
+              <tr>
+                <td><strong>Cloud Storage</strong><br>(Penyimpanan Awan)</td>
+                <td>Google Drive, Microsoft OneDrive, Apple iCloud, Dropbox, TeraBox</td>
+                <td>Buka layanan cloud (misal Google Drive) &rarr; klik tombol <strong>+ Baru (New)</strong> &rarr; pilih <strong>Folder baru</strong> &rarr; ketik nama &rarr; <strong>Buat</strong>.</td>
+                <td>Tersimpan di server internet; dapat diakses dari HP maupun laptop kapan saja &amp; mudah dibagikan lewat tautan.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <figure class="diagram-frame">
+          <svg viewBox="0 0 900 265" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="884" height="249" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+            <text x="450" y="34" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f766e">ILUSTRASI HIERARKI FOLDER &amp; SINKRONISASI LINTAS PERANGKAT (LAPTOP • HP • CLOUD)</text>
+
+            <rect x="26" y="50" width="415" height="190" rx="12" fill="#ffffff" stroke="#94a3b8" stroke-width="1.8"/>
+            <text x="233" y="73" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1e293b">1. Struktur Hierarki Folder (Tree Directory)</text>
+            <rect x="46" y="86" width="165" height="28" rx="6" fill="#0f766e"/>
+            <text x="56" y="104" font-size="11.5" font-weight="bold" fill="#ffffff">📁 Data (D:) / Sekolah</text>
+            <line x1="68" y1="114" x2="68" y2="212" stroke="#0f766e" stroke-width="2"/>
+            <line x1="68" y1="136" x2="96" y2="136" stroke="#0f766e" stroke-width="2"/>
+            <line x1="68" y1="212" x2="96" y2="212" stroke="#0f766e" stroke-width="2"/>
+            <rect x="96" y="122" width="155" height="26" rx="5" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+            <text x="106" y="139" font-size="11" font-weight="bold" fill="#92400e">📂 Kelas_8_Informatika</text>
+            <line x1="118" y1="148" x2="118" y2="188" stroke="#d97706" stroke-width="1.8"/>
+            <line x1="118" y1="164" x2="142" y2="164" stroke="#d97706" stroke-width="1.8"/>
+            <line x1="118" y1="188" x2="142" y2="188" stroke="#d97706" stroke-width="1.8"/>
+            <text x="148" y="168" font-size="11" fill="#334155">📄 Laporan_Bab1.docx</text>
+            <text x="148" y="192" font-size="11" fill="#334155">📊 Nilai_Praktik.xlsx</text>
+            <rect x="96" y="199" width="155" height="26" rx="5" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+            <text x="106" y="216" font-size="11" font-weight="bold" fill="#0369a1">📂 Dokumentasi_OSIS</text>
+
+            <rect x="460" y="50" width="414" height="190" rx="12" fill="#ffffff" stroke="#94a3b8" stroke-width="1.8"/>
+            <text x="667" y="73" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1e293b">2. Sinkronisasi Cloud Storage (Google Drive / OneDrive)</text>
+            <g class="anim-float">
+              <path d="M628 134 Q608 134 608 116 Q608 99 627 98 Q636 79 664 79 Q690 79 699 97 Q720 98 720 116 Q720 134 699 134 Z" fill="#ccfbf1" stroke="#0f766e" stroke-width="2.5"/>
+              <text x="664" y="114" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#115e59">CLOUD DRIVE</text>
+            </g>
+            <line x1="622" y1="136" x2="548" y2="178" stroke="#0f766e" stroke-width="2.8" class="anim-dash-flow"/>
+            <line x1="706" y1="136" x2="782" y2="178" stroke="#d97706" stroke-width="2.8" class="anim-dash-flow"/>
+            <rect x="485" y="178" width="118" height="44" rx="8" fill="#1e293b"/>
+            <text x="544" y="204" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#ffffff">💻 Laptop / PC</text>
+            <rect x="728" y="178" width="118" height="44" rx="8" fill="#0f766e"/>
+            <text x="787" y="204" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#ffffff">📱 Smartphone</text>
+          </svg>
+          <figcaption>Gambar 2.1 Struktur pohon direktori folder-subfolder (kiri) dan alur sinkronisasi file antarperangkat melalui Cloud Storage (kanan).</figcaption>
+        </figure>
+
+        <h3 class="sub-title">B. Simulasi Interaktif File Explorer (Buat, Ubah Nama, &amp; Hapus Folder!)</h3>
+        <div class="sim-box">
+          <div class="sim-title">SIMULASI PENGELOLA FILE LINTAS PLATFORM (BUAT, RENAME, &amp; HAPUS FOLDER)</div>
+          <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem; margin-bottom:0.85rem;">
+            <button class="btn btn-primary" id="btnPlatLaptop" onclick="setExplorerPlat('laptop')">💻 Laptop (File Explorer)</button>
+            <button class="btn btn-outline" id="btnPlatHp" onclick="setExplorerPlat('hp')">📱 HP (File Manager)</button>
+            <button class="btn btn-outline" id="btnPlatCloud" onclick="setExplorerPlat('cloud')">☁️ Cloud (Google Drive)</button>
+            <button class="btn btn-accent" onclick="addSimFolder()">➕ Buat Folder Baru</button>
+          </div>
+
+          <div style="background:#ffffff; border:2px solid #94a3b8; border-radius:12px; overflow:hidden; text-align:left; max-width:760px; margin:0 auto;">
+            <div id="simExpHeader" style="background:#1e293b; color:#fff; padding:0.55rem 0.9rem; font-size:0.86rem; font-weight:700;">
+              💻 Windows File Explorer — Penyimpanan Lokal
+            </div>
+            <div id="simExpPath" style="background:#f1f5f9; color:#0f766e; padding:0.45rem 0.9rem; font-family:monospace; font-size:0.84rem; font-weight:700; border-bottom:1px solid #cbd5e1;">
+              Alamat Direktori: Data (D:) &gt; Sekolah &gt; Kelas_8
+            </div>
+            <div id="simExpList" style="padding:0.75rem 0.9rem; min-height:155px; font-size:0.92rem;"></div>
+          </div>
+          <div class="sim-result" id="simExpTip">
+            <strong>Langkah di Laptop:</strong> Klik kanan area kosong &rarr; pilih <em>New</em> &rarr; klik <em>Folder</em> (atau tekan <code>Ctrl + Shift + N</code>) &rarr; ketik nama &rarr; tekan <strong>Enter</strong>. Gunakan tombol <strong>✏️ Ubah Nama</strong> atau <strong>🗑️ Hapus</strong> di samping folder!
+          </div>
+        </div>
+
+        <h3 class="sub-title">C. Ekstensi File Berdasarkan Kategori dan Aplikasi Pembukanya</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Kategori File</th>
+                <th>Contoh Ekstensi</th>
+                <th>Keterangan Format</th>
+                <th>Aplikasi Pembuka / Pengolah</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Dokumen &amp; Data</strong></td>
+                <td><code>.docx</code>, <code>.pdf</code>, <code>.xlsx</code>, <code>.pptx</code>, <code>.txt</code></td>
+                <td>Dokumen teks berformat, dokumen portabel tetap, tabel angka, presentasi, dan teks polos.</td>
+                <td>Microsoft Office (Word/Excel/PPT), Google Docs/Sheets/Slides, Adobe Reader, Notepad</td>
+              </tr>
+              <tr>
+                <td><strong>Gambar / Grafis</strong></td>
+                <td><code>.jpg</code> / <code>.jpeg</code>, <code>.png</code>, <code>.gif</code>, <code>.svg</code></td>
+                <td>Foto digital terkompresi, gambar latar transparan, animasi pendek, dan gambar vektor.</td>
+                <td>Photos, Galeri HP, Paint, Canva, Adobe Photoshop, Web Browser</td>
+              </tr>
+              <tr>
+                <td><strong>Audio (Suara)</strong></td>
+                <td><code>.mp3</code>, <code>.wav</code>, <code>.m4a</code>, <code>.ogg</code></td>
+                <td>File musik/rekaman suara terkompresi ukuran kecil (<code>.mp3</code>) maupun kualitas studio (<code>.wav</code>).</td>
+                <td>VLC Media Player, Windows Media Player, Pemutar Musik HP, Audacity</td>
+              </tr>
+              <tr>
+                <td><strong>Video</strong></td>
+                <td><code>.mp4</code>, <code>.mkv</code>, <code>.avi</code>, <code>.mov</code></td>
+                <td>Berkas gambar bergerak beserta suara dengan berbagai tingkat resolusi.</td>
+                <td>VLC Media Player, MX Player, Pemutar Video HP, CapCut</td>
+              </tr>
+              <tr>
+                <td><strong>Arsip / Kompresi</strong></td>
+                <td><code>.zip</code>, <code>.rar</code>, <code>.7z</code></td>
+                <td>Menggabungkan banyak file/folder menjadi satu paket arsip dan memperkecil ukuran file.</td>
+                <td>WinRAR, 7-Zip, Windows File Explorer, ZArchiver (Android)</td>
+              </tr>
+              <tr>
+                <td><strong>Aplikasi / Sistem</strong></td>
+                <td><code>.exe</code>, <code>.apk</code>, <code>.html</code></td>
+                <td>Program instalasi Windows (<code>.exe</code>), paket aplikasi Android (<code>.apk</code>), dan halaman web (<code>.html</code>).</td>
+                <td>Sistem Operasi Windows, Android Installer, Google Chrome / Edge</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout">
+          <div class="callout-title">Peringatan Penting tentang Pengubahan Ekstensi Manual:</div>
+          <p>Mengubah nama ekstensi file secara paksa lewat fitur <em>Rename</em> (misalnya mengganti <code>Video_Wisata.mp4</code> menjadi <code>Video_Wisata.pdf</code>) <strong>tidak mengubah format isi data biner di dalamnya</strong>. Akibatnya, file tersebut akan gagal dibuka (<em>corrupted/unreadable</em>). Untuk mengubah format secara sah, gunakan fitur <strong>Save As / Export</strong> atau aplikasi konverter.</p>
+        </div>
+
+        <div class="test-launcher">
+          <div class="test-launcher-text">
+            <strong>Uji Pemahaman Bab 2 (Variasi Soal Bertahap)</strong>
+            <span>Selesaikan setiap soal (Menjodohkan Ekstensi, Isian Ekstensi, &amp; Studi Kasus) untuk lanjut ke soal berikutnya!</span>
+          </div>
+          <div class="launcher-btns">
+            <button class="btn btn-primary" onclick="openPractice('bab2Practice')">📂 Mulai Latihan Bab 2</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- BAB 3 -->
+      <!-- =================================================================== -->
+      <section id="bab3" class="bab">
+        <h2 class="bab-title">BAB 3. SISTEM KOMPUTER &amp; ALUR OPERASI CPU (MACHINE CYCLE)</h2>
+        <p>
+          <strong>Sistem Komputer</strong> adalah jaringan elemen-elemen yang saling berhubungan dan bekerja sama untuk menerima masukan (<em>input</em>), memproses data (<em>process</em>), menyimpan (<em>storage</em>), serta menghasilkan keluaran informasi (<em>output</em>). Agar komputer dapat berfungsi, tiga komponen utama di bawah ini wajib tersedia secara lengkap.
+        </p>
+
+        <h3 class="sub-title">A. Komponen Utama Sistem Komputer (Hardware, Software, Brainware)</h3>
+        <figure class="diagram-frame">
+          <svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="884" height="244" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+            <text x="450" y="34" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f766e">TRILOGI SISTEM KOMPUTER: SALING TERHUBUNG &amp; TIDAK DAPAT DIPISAHKAN</text>
+
+            <line x1="285" y1="138" x2="325" y2="138" stroke="#d97706" stroke-width="4" class="anim-dash-flow"/>
+            <line x1="575" y1="138" x2="615" y2="138" stroke="#d97706" stroke-width="4" class="anim-dash-flow"/>
+
+            <g class="anim-step-1">
+              <rect x="25" y="52" width="260" height="178" rx="12" fill="#ffffff" stroke="#0f766e" stroke-width="2.5"/>
+              <rect x="25" y="52" width="260" height="32" rx="10" fill="#0f766e"/>
+              <text x="155" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">1. HARDWARE (Perangkat Keras)</text>
+              <rect x="115" y="96" width="60" height="38" rx="4" fill="#1e293b"/>
+              <rect x="120" y="101" width="50" height="28" fill="#5eead4"/>
+              <rect x="182" y="96" width="20" height="44" rx="3" fill="#475569"/>
+              <text x="155" y="160" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1e293b">Komponen Fisik Berwujud Nyata</text>
+              <text x="155" y="178" text-anchor="middle" font-size="11" fill="#475569">Dapat dilihat, disentuh, dan diraba.</text>
+              <text x="155" y="196" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0f766e">Input • Process • Output • Storage</text>
+            </g>
+
+            <g class="anim-step-2">
+              <rect x="325" y="52" width="250" height="178" rx="12" fill="#ffffff" stroke="#0284c7" stroke-width="2.5"/>
+              <rect x="325" y="52" width="250" height="32" rx="10" fill="#0284c7"/>
+              <text x="450" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">2. SOFTWARE (Perangkat Lunak)</text>
+              <rect x="415" y="96" width="70" height="44" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+              <line x1="425" y1="110" x2="475" y2="110" stroke="#0284c7" stroke-width="3"/>
+              <line x1="425" y1="120" x2="462" y2="120" stroke="#38bdf8" stroke-width="2.5"/>
+              <line x1="425" y1="130" x2="470" y2="130" stroke="#38bdf8" stroke-width="2.5"/>
+              <text x="450" y="160" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1e293b">Program &amp; Instruksi Digital</text>
+              <text x="450" y="178" text-anchor="middle" font-size="11" fill="#475569">Tidak berwujud fisik, mengatur mesin.</text>
+              <text x="450" y="196" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0284c7">OS • Aplikasi • Pemrograman • Utilitas</text>
+            </g>
+
+            <g class="anim-step-3">
+              <rect x="615" y="52" width="260" height="178" rx="12" fill="#ffffff" stroke="#d97706" stroke-width="2.5"/>
+              <rect x="615" y="52" width="260" height="32" rx="10" fill="#d97706"/>
+              <text x="745" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">3. BRAINWARE (Pengguna / SDM)</text>
+              <circle cx="745" cy="108" r="14" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
+              <path d="M720 142 Q720 125 745 125 Q770 125 770 142 Z" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
+              <text x="745" y="160" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1e293b">Manusia Pengendali Sistem</text>
+              <text x="745" y="178" text-anchor="middle" font-size="11" fill="#475569">Mengoperasikan &amp; merancang sistem.</text>
+              <text x="745" y="196" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">User • Programmer • Analyst • Teknisi</text>
+            </g>
+          </svg>
+          <figcaption>Gambar 3.1 Ketiga komponen utama sistem komputer: Hardware, Software, dan Brainware yang saling terhubung.</figcaption>
+        </figure>
+
+        <h3 class="sub-title">B. Klasifikasi Lengkap Perangkat Keras (Hardware) &amp; Visual Ikon</h3>
+        <div class="sim-box">
+          <div class="sim-title">EKSPLORATOR KLASIFIKASI PERANGKAT KERAS (KLIK KATEGORI)</div>
+          <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem; margin-bottom:1rem;">
+            <button class="btn btn-primary" id="hwBtnAll" onclick="filterHardwareList('all')">Semua (25 Perangkat)</button>
+            <button class="btn btn-outline" id="hwBtnInput" onclick="filterHardwareList('input')">⌨️ Input Device</button>
+            <button class="btn btn-outline" id="hwBtnProcess" onclick="filterHardwareList('process')">⚙️ Process Device</button>
+            <button class="btn btn-outline" id="hwBtnOutput" onclick="filterHardwareList('output')">🖨️ Output Device</button>
+            <button class="btn btn-outline" id="hwBtnStorage" onclick="filterHardwareList('storage')">💾 Storage Device</button>
+          </div>
+          <div id="hardwareCardsGrid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:0.75rem; text-align:left;"></div>
+        </div>
+
+        <div class="callout">
+          <div class="callout-title">Perbandingan Penting Perangkat Keras yang Sering Muncul di Ujian:</div>
+          <p>• <strong>RAM vs ROM:</strong> <strong>RAM</strong> bersifat sementara (<em>volatile</em> — data hilang saat listrik mati), sedangkan <strong>ROM</strong> bersifat permanen (<em>non-volatile</em> — menyimpan firmware <em>BIOS/UEFI</em>).</p>
+          <p>• <strong>HDD vs SSD:</strong> <strong>HDD</strong> menggunakan piringan cakram magnetik berputar, sedangkan <strong>SSD</strong> menggunakan chip memori flash elektronik yang jauh lebih cepat dan tahan guncangan.</p>
+          <p>• <strong>Scanner vs Printer:</strong> <strong>Scanner</strong> termasuk <em>Input Device</em> (kertas &rarr; digital), sedangkan <strong>Printer</strong> termasuk <em>Output Device</em> (digital &rarr; cetakan kertas).</p>
+        </div>
+
+        <h3 class="sub-title">C. Alur Operasi CPU (Machine Cycle: Fetch – Decode – Execute – Store)</h3>
+        <div class="sim-box">
+          <div class="sim-title">SIMULASI BERGERAK SIKLUS OPERASI CPU (CONTOH INSTRUKSI: 12 + 8)</div>
+          <div style="margin-bottom:0.85rem; display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem;">
+            <button class="btn btn-primary" onclick="startCpuAnimation()">▶️ Jalankan Siklus CPU (12 + 8)</button>
+            <button class="btn btn-secondary" onclick="resetCpuAnimation()">🔄 Reset</button>
+          </div>
+
+          <svg viewBox="0 0 880 230" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; background:#0f172a; border-radius:12px; border:2px solid #334155;">
+            <text x="440" y="28" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#5eead4">ARSITEKTUR SIKLUS PEMROSESAN CPU (MACHINE CYCLE)</text>
+
+            <line x1="205" y1="115" x2="235" y2="115" stroke="#f59e0b" stroke-width="3.5" class="anim-dash-flow"/>
+            <line x1="425" y1="115" x2="455" y2="115" stroke="#f59e0b" stroke-width="3.5" class="anim-dash-flow"/>
+            <line x1="645" y1="115" x2="675" y2="115" stroke="#f59e0b" stroke-width="3.5" class="anim-dash-flow"/>
+
+            <g id="cpuBox1" style="transition: all 0.35s ease;">
+              <rect x="20" y="48" width="185" height="136" rx="10" fill="#1e293b" stroke="#475569" stroke-width="2.5"/>
+              <rect x="42" y="58" width="140" height="22" rx="11" fill="#0f766e"/>
+              <text x="112" y="73" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">1. FETCH (Ambil)</text>
+              <text x="112" y="105" text-anchor="middle" font-size="22">📥</text>
+              <text x="112" y="132" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#f8fafc">Control Unit (CU)</text>
+              <text x="112" y="149" text-anchor="middle" font-size="10.5" fill="#cbd5e1">Mengambil instruksi</text>
+              <text x="112" y="164" text-anchor="middle" font-size="10.5" fill="#fcd34d">12 + 8 dari RAM</text>
+            </g>
+
+            <g id="cpuBox2" style="transition: all 0.35s ease;">
+              <rect x="240" y="48" width="185" height="136" rx="10" fill="#1e293b" stroke="#475569" stroke-width="2.5"/>
+              <rect x="262" y="58" width="140" height="22" rx="11" fill="#0284c7"/>
+              <text x="332" y="73" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">2. DECODE (Terjemah)</text>
+              <text x="332" y="105" text-anchor="middle" font-size="22">🔍</text>
+              <text x="332" y="132" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#f8fafc">Control Unit (CU)</text>
+              <text x="332" y="149" text-anchor="middle" font-size="10.5" fill="#cbd5e1">Menerjemahkan tanda</text>
+              <text x="332" y="164" text-anchor="middle" font-size="10.5" fill="#fcd34d">(+) sebagai penjumlahan</text>
+            </g>
+
+            <g id="cpuBox3" style="transition: all 0.35s ease;">
+              <rect x="460" y="48" width="185" height="136" rx="10" fill="#1e293b" stroke="#475569" stroke-width="2.5"/>
+              <rect x="482" y="58" width="140" height="22" rx="11" fill="#d97706"/>
+              <text x="552" y="73" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">3. EXECUTE (Eksekusi)</text>
+              <text x="552" y="105" text-anchor="middle" font-size="22">⚡</text>
+              <text x="552" y="132" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#f8fafc">Unit ALU</text>
+              <text x="552" y="149" text-anchor="middle" font-size="10.5" fill="#cbd5e1">Menghitung operasi:</text>
+              <text x="552" y="164" text-anchor="middle" font-size="10.5" fill="#fcd34d">12 + 8 = 20</text>
+            </g>
+
+            <g id="cpuBox4" style="transition: all 0.35s ease;">
+              <rect x="680" y="48" width="180" height="136" rx="10" fill="#1e293b" stroke="#475569" stroke-width="2.5"/>
+              <rect x="700" y="58" width="140" height="22" rx="11" fill="#16a34a"/>
+              <text x="770" y="73" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">4. STORE (Simpan)</text>
+              <text x="770" y="105" text-anchor="middle" font-size="22">💾</text>
+              <text x="770" y="132" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#f8fafc">Register &amp; RAM</text>
+              <text x="770" y="149" text-anchor="middle" font-size="10.5" fill="#cbd5e1">Menyimpan hasil 20</text>
+              <text x="770" y="164" text-anchor="middle" font-size="10.5" fill="#fcd34d">&amp; kirim ke Monitor</text>
+            </g>
+
+            <rect x="20" y="194" width="840" height="26" rx="6" fill="#020617"/>
+            <text id="cpuSvgLog" x="440" y="211" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#4ade80">&gt; Status CPU: Siap menerima instruksi. Klik tombol "Jalankan Siklus CPU" di atas.</text>
+          </svg>
+        </div>
+
+        <div class="test-launcher">
+          <div class="test-launcher-text">
+            <strong>Uji Pemahaman Bab 3 (Variasi Soal Bertahap)</strong>
+            <span>Selesaikan setiap tantangan (Urutan Siklus CPU, Menjodohkan Komponen, &amp; Isian Singkat) untuk lanjut!</span>
+          </div>
+          <div class="launcher-btns">
+            <button class="btn btn-primary" onclick="openPractice('bab3Practice')">🧠 Mulai Latihan Bab 3</button>
+          </div>
+        </div>
+      </section>
     </div>
 
     <!-- ===================================================================== -->
-    <!-- PRACTICE VIEW BAB 1 -->
+    <!-- PRACTICE VIEW BAB 1 (VARIASI: ISIAN SHORTCUT, URUTAN ALUR, PILIHAN GANDA) -->
     <!-- ===================================================================== -->
     <section id="bab1Practice" class="practice-view hidden">
       <div class="practice-header">
         <h2>📝 Latihan Mandiri Bab 1: Pengolah Kata &amp; Shortcut</h2>
         <button class="btn btn-secondary" onclick="showMainModule()">&larr; Kembali ke Modul</button>
       </div>
-      <div class="quiz-card">
-        <span class="quiz-badge" id="b1QBadge">Soal #1</span>
-        <div class="quiz-question" id="b1QText">Memuat soal...</div>
-        <div class="quiz-options" id="b1QOptions"></div>
-        <div id="b1QFeedback" class="feedback-box hidden"></div>
-        <div style="margin-top:1rem;">
-          <button class="btn btn-accent" onclick="nextBab1Question()">Soal Berikutnya &rarr;</button>
-        </div>
-      </div>
+      <div class="quiz-card" id="b1QuizContainer"></div>
     </section>
 
-    <!-- SLOT OTOMATIS UNTUK PRACTICE VIEW BAB 2 & BAB 3 -->
-    <div id="extraPracticesSlot"></div>
+    <!-- ===================================================================== -->
+    <!-- PRACTICE VIEW BAB 2 (VARIASI: MENJODOHKAN EKSTENSI, ISIAN, PILIHAN GANDA) -->
+    <!-- ===================================================================== -->
+    <section id="bab2Practice" class="practice-view hidden">
+      <div class="practice-header">
+        <h2>📂 Latihan Mandiri Bab 2: File, Folder &amp; Ekstensi</h2>
+        <button class="btn btn-secondary" onclick="showMainModule()">&larr; Kembali ke Modul</button>
+      </div>
+      <div class="quiz-card" id="b2QuizContainer"></div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- PRACTICE VIEW BAB 3 (VARIASI: URUTAN SIKLUS CPU, MENJODOHKAN, ISIAN) -->
+    <!-- ===================================================================== -->
+    <section id="bab3Practice" class="practice-view hidden">
+      <div class="practice-header">
+        <h2>🧠 Latihan Mandiri Bab 3: Sistem Komputer &amp; Siklus CPU</h2>
+        <button class="btn btn-secondary" onclick="showMainModule()">&larr; Kembali ke Modul</button>
+      </div>
+      <div class="quiz-card" id="b3QuizContainer"></div>
+    </section>
 
     <footer>
       Modul Visual &amp; Latihan Interaktif Informatika Kelas VIII SMP • Siap GitHub Pages
@@ -622,7 +994,7 @@
   </div>
 
   <script>
-    // Navigasi Utama vs Tampilan Latihan
+    // ================= NAVIGASI UTAMA =================
     function showMainModule() {
       document.querySelectorAll('.practice-view').forEach(el => el.classList.add('hidden'));
       document.getElementById('mainModuleView').classList.remove('hidden');
@@ -638,21 +1010,7 @@
       }
     }
 
-    // Helper otomatis untuk menempelkan Bab 2 & Bab 3 di bagian bawah file
-    function appendModuleBlocks(chapterIds, practiceIds) {
-      const chSlot = document.getElementById('extraChaptersSlot');
-      const prSlot = document.getElementById('extraPracticesSlot');
-      chapterIds.forEach(id => {
-        const el = document.getElementById(id);
-        if (el && chSlot) chSlot.appendChild(el);
-      });
-      practiceIds.forEach(id => {
-        const el = document.getElementById(id);
-        if (el && prSlot) prSlot.appendChild(el);
-      });
-    }
-
-    // Interaksi UI Pengolah Kata (Bab 1)
+    // ================= BAB 1: SIMULASI UI & CLIPBOARD =================
     const uiPartsData = {
       1: { x: 6, y: 3, w: 116, h: 30, desc: "<strong>[1] Quick Access Toolbar (QAT):</strong> Bilah pintasan cepat di pojok kiri atas berisi tombol perintah yang paling sering dipakai, seperti <em>Save</em> (Simpan), <em>Undo</em> (Batalkan), dan <em>Redo</em> (Ulangi)." },
       2: { x: 148, y: 3, w: 564, h: 30, desc: "<strong>[2] Title Bar (Baris Judul):</strong> Menampilkan nama file dokumen beserta ekstensinya yang sedang dibuka (contoh: <code>Laporan_Praktikum_Kelas8.docx</code>)." },
@@ -672,7 +1030,6 @@
       document.getElementById('uiPartOutput').innerHTML = item.desc;
     }
 
-    // Simulasi Copy Cut Paste (Bab 1)
     let ccpState = "";
     function runCcp(action) {
       const src = document.getElementById('ccpSrcObj');
@@ -711,827 +1068,548 @@
       }
     }
 
-    // Bank Soal Latihan Bab 1
-    const bab1Bank = [
-      {
-        q: "Bagian jendela pengolah kata yang berada di bagian paling bawah dan menampilkan jumlah halaman, jumlah kata, serta pengatur Zoom adalah...",
-        opts: ["Status Bar", "Title Bar", "Quick Access Toolbar", "Ruler"],
-        ans: 0,
-        exp: "Status Bar terletak di bagian paling bawah jendela aplikasi untuk menampilkan statistik halaman, jumlah kata, dan kontrol Zoom."
+    // ================= BAB 2: SIMULASI FILE EXPLORER (TAMBAH, EDIT NAMA, HAPUS) =================
+    const expTemplates = {
+      laptop: {
+        header: "💻 Windows File Explorer — Penyimpanan Lokal",
+        path: "Alamat Direktori: Data (D:) > Sekolah > Kelas_8",
+        tip: "<strong>Langkah di Laptop:</strong> Klik kanan area kosong &rarr; <em>New</em> &rarr; <em>Folder</em> (<code>Ctrl + Shift + N</code>). Klik <strong>✏️ Ubah Nama</strong> untuk mengganti nama folder atau <strong>🗑️ Hapus</strong> untuk menghapus.",
+        items: [
+          { id: 101, type: 'folder', icon: '📁', name: 'Informatika', isNew: false },
+          { id: 102, type: 'file', icon: '📄', name: 'Tugas_Pengolah_Kata.docx', isNew: false },
+          { id: 103, type: 'file', icon: '📊', name: 'Rekap_Nilai_Kelas8.xlsx', isNew: false },
+          { id: 104, type: 'folder', icon: '📁', name: 'IPA_Praktikum', isNew: false }
+        ]
       },
-      {
-        q: "Jika kamu tidak sengaja menghapus satu paragraf penting, kombinasi tombol keyboard tercepat untuk membatalkan penghapusan tersebut adalah...",
-        opts: ["Ctrl + Y", "Ctrl + Z", "Ctrl + H", "Ctrl + N"],
-        ans: 1,
-        exp: "Ctrl + Z (Undo) berfungsi membatalkan tindakan terakhir yang baru saja dilakukan."
+      hp: {
+        header: "📱 Android / iOS File Manager — Memori Internal",
+        path: "Alamat Direktori: Penyimpanan Internal > Documents > Tugas_Sekolah",
+        tip: "<strong>Langkah di HP:</strong> Buka <em>File Manager / Files</em> &rarr; ketuk ikon <strong>titik tiga / tambah (+)</strong> &rarr; <strong>Buat Folder Baru</strong>. Gunakan tombol aksi untuk edit nama atau hapus.",
+        items: [
+          { id: 201, type: 'folder', icon: '📁', name: 'Foto_Kegiatan_OSIS', isNew: false },
+          { id: 202, type: 'file', icon: '🖼️', name: 'IMG_20261123.jpg', isNew: false },
+          { id: 203, type: 'file', icon: '📕', name: 'Modul_Informatika_8.pdf', isNew: false }
+        ]
       },
-      {
-        q: "Perbedaan utama antara perintah Cut (Ctrl + X) dan Copy (Ctrl + C) saat diikuti perintah Paste (Ctrl + V) adalah...",
-        opts: [
-          "Cut menghapus data di tempat asal setelah ditempel, sedangkan Copy tetap mempertahankan data di tempat asal",
-          "Cut hanya bisa dipakai untuk gambar, sedangkan Copy hanya untuk teks",
-          "Copy menyimpan data ke harddisk, sedangkan Cut menghapus data secara permanen tanpa masuk Clipboard",
-          "Tidak ada perbedaan antara keduanya"
-        ],
-        ans: 0,
-        exp: "Cut memindahkan data melalui Clipboard sehingga data sumber hilang setelah di-Paste, sedangkan Copy menggandakan data."
-      },
-      {
-        q: "Kamu ingin mengganti kata 'Siswa' menjadi 'Peserta Didik' di seluruh halaman laporan secara otomatis sekaligus. Tombol pintasan yang digunakan adalah...",
-        opts: ["Ctrl + S", "Ctrl + N", "Ctrl + H", "Ctrl + U"],
-        ans: 2,
-        exp: "Ctrl + H membuka kotak dialog Find and Replace untuk mencari dan mengganti kata secara massal."
-      },
-      {
-        q: "Manakah di bawah ini yang merupakan aplikasi pengolah kata berbasis Cloud (Online) yang tersimpan otomatis di internet dan mendukung kolaborasi?",
-        opts: ["LibreOffice Writer", "Google Docs", "Notepad", "Apple Pages Offline"],
-        ans: 1,
-        exp: "Google Docs berjalan melalui browser internet dan menyimpan dokumen secara otomatis di Google Drive."
+      cloud: {
+        header: "☁️ Google Drive — Cloud Storage (Penyimpanan Awan)",
+        path: "Alamat Direktori: Drive Saya > Proyek_Kelompok_8",
+        tip: "<strong>Langkah di Google Drive:</strong> Klik tombol <strong>+ Baru (New)</strong> &rarr; <strong>Folder baru</strong>. Folder yang dibuat otomatis tersinkronisasi lintas perangkat.",
+        items: [
+          { id: 301, type: 'folder', icon: '📁', name: 'Bahan_Presentasi_Kelompok', isNew: false },
+          { id: 302, type: 'file', icon: '📽️', name: 'Presentasi_Kelompok.pptx', isNew: false },
+          { id: 303, type: 'file', icon: '🎬', name: 'Video_Dokumentasi.mp4', isNew: false }
+        ]
       }
+    };
+
+    let activeExpPlat = 'laptop';
+    let folderSeq = 1;
+    let editingFolderId = null;
+
+    function renderSimExplorer() {
+      const data = expTemplates[activeExpPlat];
+      document.getElementById('simExpHeader').innerHTML = data.header;
+      document.getElementById('simExpPath').innerHTML = data.path;
+      document.getElementById('simExpTip').innerHTML = data.tip;
+      const listBox = document.getElementById('simExpList');
+
+      if (data.items.length === 0) {
+        listBox.innerHTML = `<div style="text-align:center; color:#64748b; padding:1.5rem;">Folder kosong. Klik <strong>➕ Buat Folder Baru</strong> di atas untuk menambahkan folder.</div>`;
+        return;
+      }
+
+      listBox.innerHTML = data.items.map(item => {
+        const isEditing = (editingFolderId === item.id);
+        const nameDisplay = isEditing
+          ? `<input type="text" id="renameInput_${item.id}" class="rename-input" value="${item.name}" onkeydown="if(event.key==='Enter') saveRenameFolder(${item.id})" />`
+          : `<span>${item.type === 'folder' ? '<strong>' + item.name + '</strong> <small style="color:#64748b;">(Folder)</small>' : item.name}</span>`;
+
+        const actionBtns = item.type === 'folder'
+          ? (isEditing
+              ? `<button class="btn-edit-sm" style="background:#16a34a; color:#fff; border-color:#16a34a;" onclick="saveRenameFolder(${item.id})">✅ Simpan</button>`
+              : `<button class="btn-edit-sm" onclick="startRenameFolder(${item.id})">✏️ Ubah Nama</button>
+                 <button class="btn-danger-sm" onclick="deleteSimFolder(${item.id})">🗑️ Hapus</button>`)
+          : `<span style="font-size:0.75rem; color:#94a3b8;">Berkas</span>`;
+
+        return `
+          <div class="exp-row ${item.isNew ? 'new-folder' : ''}">
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <span style="font-size:1.15rem;">${item.icon}</span>
+              ${nameDisplay}
+            </div>
+            <div class="exp-actions">${actionBtns}</div>
+          </div>
+        `;
+      }).join("");
+
+      if (editingFolderId !== null) {
+        const inp = document.getElementById('renameInput_' + editingFolderId);
+        if (inp) { inp.focus(); inp.select(); }
+      }
+    }
+
+    function setExplorerPlat(plat) {
+      activeExpPlat = plat;
+      editingFolderId = null;
+      ['laptop', 'hp', 'cloud'].forEach(p => {
+        const btn = document.getElementById('btnPlat' + p.charAt(0).toUpperCase() + p.slice(1));
+        if (btn) btn.className = (p === plat) ? 'btn btn-primary' : 'btn btn-outline';
+      });
+      renderSimExplorer();
+    }
+
+    function addSimFolder() {
+      const newId = Date.now();
+      const defaultName = `Folder_Baru_${folderSeq++}`;
+      expTemplates[activeExpPlat].items.unshift({
+        id: newId,
+        type: 'folder',
+        icon: '📁',
+        name: defaultName,
+        isNew: true
+      });
+      editingFolderId = newId; // Langsung mode edit nama saat dibuat!
+      renderSimExplorer();
+    }
+
+    function startRenameFolder(id) {
+      editingFolderId = id;
+      renderSimExplorer();
+    }
+
+    function saveRenameFolder(id) {
+      const inp = document.getElementById('renameInput_' + id);
+      const item = expTemplates[activeExpPlat].items.find(x => x.id === id);
+      if (inp && item) {
+        const cleanVal = inp.value.trim();
+        if (cleanVal !== "") item.name = cleanVal;
+        item.isNew = false;
+      }
+      editingFolderId = null;
+      renderSimExplorer();
+    }
+
+    function deleteSimFolder(id) {
+      expTemplates[activeExpPlat].items = expTemplates[activeExpPlat].items.filter(x => x.id !== id);
+      if (editingFolderId === id) editingFolderId = null;
+      renderSimExplorer();
+    }
+
+    renderSimExplorer();
+
+    // ================= BAB 3: HARDWARE & SIKLUS CPU =================
+    const hardwareList = [
+      { cat: "input", tag: "Input Device", icon: "⌨️", name: "Keyboard", desc: "Memasukkan input karakter huruf, angka, simbol, dan pintasan perintah." },
+      { cat: "input", tag: "Input Device", icon: "🖱️", name: "Mouse & Touchpad", desc: "Menggerakkan kursor, memilih objek, dan menggulir halaman layar." },
+      { cat: "input", tag: "Input Device", icon: "📱", name: "Touchscreen & Stylus", desc: "Layar sentuh jari dan pena digital untuk menggambar/menulis langsung." },
+      { cat: "input", tag: "Input Device", icon: "📠", name: "Scanner (Pemindai)", desc: "Memindai dokumen kertas fisik menjadi file gambar digital." },
+      { cat: "input", tag: "Input Device", icon: "🎙️", name: "Microphone", desc: "Menangkap gelombang suara menjadi sinyal audio digital." },
+      { cat: "input", tag: "Input Device", icon: "📷", name: "Webcam / Kamera", desc: "Menangkap gambar diam maupun video secara langsung ke komputer." },
+      { cat: "input", tag: "Input Device", icon: "🏷️", name: "Barcode / QR Reader", desc: "Membaca kode batang/QR barang menjadi data teks/angka." },
+      { cat: "input", tag: "Input Device", icon: "🎮", name: "Joystick / Gamepad", desc: "Mengendalikan gerakan karakter/objek pada permainan dan simulasi." },
+      { cat: "process", tag: "Process Device", icon: "🧠", name: "CPU / Processor", desc: "Otak utama komputer yang mengeksekusi seluruh instruksi program." },
+      { cat: "process", tag: "Process Device", icon: "🔌", name: "Motherboard", desc: "Papan sirkuit utama tempat terhubungnya CPU, RAM, dan komponen lain." },
+      { cat: "process", tag: "Process Device", icon: "🎨", name: "GPU / VGA Card", desc: "Mengolah pemrosesan grafis, video, dan rendering gambar ke layar." },
+      { cat: "process", tag: "Process Device", icon: "🔊", name: "Sound Card", desc: "Mengolah sinyal audio untuk input mikrofon dan output ke speaker." },
+      { cat: "process", tag: "Process Device", icon: "🌐", name: "NIC / LAN & Wi-Fi Card", desc: "Mengolah paket data jaringan agar komputer terhubung ke internet." },
+      { cat: "process", tag: "Process Device", icon: "⚡", name: "Power Supply (PSU)", desc: "Mengubah arus listrik AC menjadi DC untuk menyuplai daya komponen." },
+      { cat: "output", tag: "Output Device", icon: "🖥️", name: "Monitor", desc: "Menampilkan hasil pemrosesan secara visual pada layar (softcopy)." },
+      { cat: "output", tag: "Output Device", icon: "🖨️", name: "Printer", desc: "Mencetak dokumen teks atau gambar ke media kertas (hardcopy)." },
+      { cat: "output", tag: "Output Device", icon: "📐", name: "Plotter", desc: "Printer berukuran besar khusus mencetak peta, blueprint arsitektur, & spanduk." },
+      { cat: "output", tag: "Output Device", icon: "📢", name: "Speaker & Headphone", desc: "Mengeluarkan hasil pemrosesan komputer berupa gelombang suara." },
+      { cat: "output", tag: "Output Device", icon: "📽️", name: "Proyektor (LCD)", desc: "Memancarkan tampilan layar komputer ke layar lebar atau dinding." },
+      { cat: "storage", tag: "Storage (Primer)", icon: "⚡", name: "RAM & Cache Memory", desc: "Memori sementara (volatile) penyimpan data aplikasi yang sedang berjalan." },
+      { cat: "storage", tag: "Storage (Primer)", icon: "🔒", name: "ROM (BIOS/UEFI)", desc: "Memori permanen penyimpan instruksi dasar saat komputer dinyalakan." },
+      { cat: "storage", tag: "Storage (Sekunder)", icon: "💽", name: "HDD (Hard Disk Drive)", desc: "Penyimpanan permanen memakai piringan cakram magnetik berputar." },
+      { cat: "storage", tag: "Storage (Sekunder)", icon: "🚀", name: "SSD (Solid State Drive)", desc: "Penyimpanan permanen berbasis chip flash (jauh lebih cepat dari HDD)." },
+      { cat: "storage", tag: "Storage (Portabel)", icon: "💾", name: "Flashdisk & SD Card", desc: "Media penyimpanan portabel kecil berbasis memori flash." },
+      { cat: "storage", tag: "Storage (Optik)", icon: "💿", name: "CD / DVD / Blu-ray", desc: "Piringan optik yang dibaca dan ditulis menggunakan sinar laser." }
     ];
 
-    let b1Idx = 0;
-    function renderBab1Question() {
-      const item = bab1Bank[b1Idx % bab1Bank.length];
-      document.getElementById('b1QBadge').textContent = `Soal #${b1Idx + 1}`;
-      document.getElementById('b1QText').textContent = item.q;
-      const optBox = document.getElementById('b1QOptions');
-      const fb = document.getElementById('b1QFeedback');
-      fb.classList.add('hidden');
-      optBox.innerHTML = "";
-      item.opts.forEach((optText, i) => {
-        const btn = document.createElement('button');
-        btn.className = "opt-btn";
-        btn.textContent = `${String.fromCharCode(65 + i)}. ${optText}`;
-        btn.onclick = () => {
-          fb.classList.remove('hidden', 'ok', 'err');
-          if (i === item.ans) {
-            fb.classList.add('ok');
-            fb.innerHTML = `✅ <strong>Benar!</strong> ${item.exp}`;
-          } else {
-            fb.classList.add('err');
-            fb.innerHTML = `❌ <strong>Belum tepat.</strong> Jawaban yang benar adalah <strong>${String.fromCharCode(65 + item.ans)}</strong>. ${item.exp}`;
-          }
-        };
-        optBox.appendChild(btn);
+    function filterHardwareList(cat) {
+      const mapBtn = { all: 'hwBtnAll', input: 'hwBtnInput', process: 'hwBtnProcess', output: 'hwBtnOutput', storage: 'hwBtnStorage' };
+      Object.keys(mapBtn).forEach(k => {
+        const b = document.getElementById(mapBtn[k]);
+        if (b) b.className = (k === cat) ? 'btn btn-primary' : 'btn btn-outline';
       });
+      const grid = document.getElementById('hardwareCardsGrid');
+      const items = (cat === 'all') ? hardwareList : hardwareList.filter(i => i.cat === cat);
+      grid.innerHTML = items.map(item => `
+        <div style="background:#ffffff; border:1px solid #cbd5e1; border-top:4px solid #0f766e; border-radius:10px; padding:0.8rem;">
+          <div style="display:flex; align-items:center; gap:8px; font-weight:700; color:#1e293b; margin-bottom:4px;">
+            <span style="font-size:1.3rem;">${item.icon}</span>
+            <span>${item.name}</span>
+          </div>
+          <span style="display:inline-block; background:#f0fdfa; color:#0f766e; border:1px solid #99f6e4; font-size:0.72rem; font-weight:700; padding:1px 7px; border-radius:999px; margin-bottom:5px;">${item.tag}</span>
+          <p style="font-size:0.84rem; color:#475569; margin:0;">${item.desc}</p>
+        </div>
+      `).join("");
+    }
+    filterHardwareList('all');
+
+    let cpuCycleTimers = [];
+    function resetCpuAnimation() {
+      cpuCycleTimers.forEach(t => clearTimeout(t));
+      cpuCycleTimers = [];
+      for (let i = 1; i <= 4; i++) {
+        const box = document.getElementById('cpuBox' + i);
+        if (box) {
+          box.style.transform = 'scale(1)';
+          box.querySelector('rect').setAttribute('stroke', '#475569');
+        }
+      }
+      const log = document.getElementById('cpuSvgLog');
+      if (log) log.textContent = '> Status CPU: Direset. Siap menjalankan siklus instruksi berikutnya.';
     }
 
-    function nextBab1Question() {
-      b1Idx++;
-      renderBab1Question();
+    function startCpuAnimation() {
+      resetCpuAnimation();
+      const messages = [
+        '> [1. FETCH]: Control Unit mengambil instruksi "12 + 8" dari alamat memori RAM...',
+        '> [2. DECODE]: Control Unit menerjemahkan kode perintah (+) sebagai penjumlahan...',
+        '> [3. EXECUTE]: Unit ALU menjalankan kalkulasi aritmatika: 12 + 8 = 20...',
+        '> [4. STORE]: Hasil angka "20" disimpan ke Register/RAM lalu ditampilkan di Monitor! ✅'
+      ];
+      for (let i = 1; i <= 4; i++) {
+        const timer = setTimeout(() => {
+          for (let j = 1; j <= 4; j++) {
+            const b = document.getElementById('cpuBox' + j);
+            b.style.transform = 'scale(1)';
+            b.querySelector('rect').setAttribute('stroke', '#475569');
+          }
+          const activeBox = document.getElementById('cpuBox' + i);
+          activeBox.style.transform = 'scale(1.04)';
+          activeBox.querySelector('rect').setAttribute('stroke', '#f59e0b');
+          document.getElementById('cpuSvgLog').textContent = messages[i - 1];
+        }, (i - 1) * 1400);
+        cpuCycleTimers.push(timer);
+      }
     }
 
-    renderBab1Question();
+    // =========================================================================
+    // ENGINE LATIHAN VARIATIF DENGAN KUNCI PROGRES (WAJIB SELESAIKAN SOAL DULU)
+    // =========================================================================
+    function createQuizEngine(containerId, questionsBank) {
+      let idx = 0;
+      let solved = false;
+      let orderState = [];
+      let matchLeftSel = null;
+      let matchDoneCount = 0;
+
+      function render() {
+        solved = false;
+        const container = document.getElementById(containerId);
+        const total = questionsBank.length;
+        const qObj = questionsBank[idx];
+
+        let bodyHtml = "";
+        if (qObj.type === "mcq") {
+          bodyHtml = `
+            <div class="quiz-options">
+              ${qObj.opts.map((opt, i) => `
+                <button class="opt-btn" id="${containerId}_opt_${i}" onclick="window['quiz_${containerId}'].checkMcq(${i})">
+                  ${String.fromCharCode(65 + i)}. ${opt}
+                </button>
+              `).join("")}
+            </div>
+          `;
+        } else if (qObj.type === "fill") {
+          bodyHtml = `
+            <div class="fill-row">
+              <input type="text" id="${containerId}_fillInp" class="fill-input" placeholder="${qObj.placeholder}" onkeydown="if(event.key==='Enter') window['quiz_${containerId}'].checkFill()" />
+              <button class="btn btn-primary" onclick="window['quiz_${containerId}'].checkFill()">Periksa Jawaban</button>
+            </div>
+          `;
+        } else if (qObj.type === "order") {
+          if (orderState.length === 0) orderState = [...qObj.shuffled];
+          bodyHtml = `
+            <div class="order-list" id="${containerId}_orderList">
+              ${orderState.map((stepText, i) => `
+                <div class="order-item">
+                  <span><strong>${i + 1}.</strong> ${stepText}</span>
+                  <div class="order-arrows">
+                    <button class="arrow-btn" onclick="window['quiz_${containerId}'].moveOrder(${i}, -1)" ${i === 0 ? 'disabled' : ''}>▲</button>
+                    <button class="arrow-btn" onclick="window['quiz_${containerId}'].moveOrder(${i}, 1)" ${i === orderState.length - 1 ? 'disabled' : ''}>▼</button>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+            <button class="btn btn-primary" onclick="window['quiz_${containerId}'].checkOrder()">Periksa Urutan</button>
+          `;
+        } else if (qObj.type === "match") {
+          matchLeftSel = null;
+          matchDoneCount = 0;
+          bodyHtml = `
+            <div class="match-grid">
+              <div class="match-col">
+                ${qObj.pairs.map((p, i) => `
+                  <button class="match-btn" id="${containerId}_mL_${i}" onclick="window['quiz_${containerId}'].pickMatch('L', ${i})">${p.left}</button>
+                `).join("")}
+              </div>
+              <div class="match-col">
+                ${qObj.rightOrder.map(rIdx => `
+                  <button class="match-btn" id="${containerId}_mR_${rIdx}" onclick="window['quiz_${containerId}'].pickMatch('R', ${rIdx})">${qObj.pairs[rIdx].right}</button>
+                `).join("")}
+              </div>
+            </div>
+          `;
+        }
+
+        const isLast = (idx === total - 1);
+        container.innerHTML = `
+          <div class="quiz-top-meta">
+            <span class="quiz-badge">Soal ${idx + 1} dari ${total}</span>
+            <span class="quiz-type-tag">${qObj.typeLabel}</span>
+          </div>
+          <div class="quiz-question">${qObj.q}</div>
+          ${bodyHtml}
+          <div id="${containerId}_fb" class="feedback-box hidden"></div>
+          <div style="margin-top:1.1rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+            <small id="${containerId}_lockHint" style="color:#64748b; font-weight:600;">🔒 Selesaikan soal ini terlebih dahulu untuk membuka soal berikutnya.</small>
+            <button class="btn btn-accent" id="${containerId}_nextBtn" disabled onclick="window['quiz_${containerId}'].next()">
+              ${isLast ? '🔄 Ulangi Latihan dari Awal' : 'Soal Berikutnya &rarr;'}
+            </button>
+          </div>
+        `;
+      }
+
+      function unlockNext(msg) {
+        solved = true;
+        const fb = document.getElementById(`${containerId}_fb`);
+        fb.classList.remove('hidden', 'err');
+        fb.classList.add('ok');
+        fb.innerHTML = msg;
+        const nextBtn = document.getElementById(`${containerId}_nextBtn`);
+        const hint = document.getElementById(`${containerId}_lockHint`);
+        if (nextBtn) nextBtn.disabled = false;
+        if (hint) hint.innerHTML = "✅ <strong>Soal selesai!</strong> Silakan lanjut ke soal berikutnya.";
+      }
+
+      function showErr(msg) {
+        const fb = document.getElementById(`${containerId}_fb`);
+        fb.classList.remove('hidden', 'ok');
+        fb.classList.add('err');
+        fb.innerHTML = msg;
+      }
+
+      window[`quiz_${containerId}`] = {
+        checkMcq(i) {
+          if (solved) return;
+          const qObj = questionsBank[idx];
+          if (i === qObj.ans) {
+            unlockNext(`✅ <strong>Benar!</strong> ${qObj.exp}`);
+          } else {
+            showErr(`❌ <strong>Belum tepat.</strong> Coba periksa kembali pilihanmu!`);
+          }
+        },
+        checkFill() {
+          if (solved) return;
+          const qObj = questionsBank[idx];
+          const val = document.getElementById(`${containerId}_fillInp`).value.trim().toLowerCase().replace(/\s+/g, '');
+          const accepted = qObj.answers.map(a => a.toLowerCase().replace(/\s+/g, ''));
+          if (accepted.includes(val)) {
+            unlockNext(`✅ <strong>Tepat sekali!</strong> ${qObj.exp}`);
+          } else {
+            showErr(`❌ <strong>Belum sesuai.</strong> Petunjuk: ${qObj.hint}`);
+          }
+        },
+        moveOrder(pos, dir) {
+          if (solved) return;
+          const targetPos = pos + dir;
+          if (targetPos < 0 || targetPos >= orderState.length) return;
+          const temp = orderState[pos];
+          orderState[pos] = orderState[targetPos];
+          orderState[targetPos] = temp;
+          render();
+        },
+        checkOrder() {
+          if (solved) return;
+          const qObj = questionsBank[idx];
+          const isMatch = orderState.every((val, i) => val === qObj.correct[i]);
+          if (isMatch) {
+            unlockNext(`✅ <strong>Urutan sempurna!</strong> ${qObj.exp}`);
+          } else {
+            showErr(`❌ <strong>Urutan belum tepat.</strong> Gunakan tombol ▲ / ▼ untuk menukar posisi langkah.`);
+          }
+        },
+        pickMatch(side, itemIdx) {
+          if (solved) return;
+          const qObj = questionsBank[idx];
+          if (side === 'L') {
+            const btn = document.getElementById(`${containerId}_mL_${itemIdx}`);
+            if (btn.classList.contains('done')) return;
+            document.querySelectorAll(`[id^="${containerId}_mL_"]`).forEach(b => b.classList.remove('sel'));
+            btn.classList.add('sel');
+            matchLeftSel = itemIdx;
+          } else if (side === 'R') {
+            if (matchLeftSel === null) {
+              showErr("⚠️ Klik salah satu kotak di <strong>kolom kiri</strong> terlebih dahulu!");
+              return;
+            }
+            const rBtn = document.getElementById(`${containerId}_mR_${itemIdx}`);
+            if (rBtn.classList.contains('done')) return;
+            if (matchLeftSel === itemIdx) {
+              const lBtn = document.getElementById(`${containerId}_mL_${matchLeftSel}`);
+              lBtn.classList.remove('sel');
+              lBtn.classList.add('done');
+              rBtn.classList.add('done');
+              matchLeftSel = null;
+              matchDoneCount++;
+              document.getElementById(`${containerId}_fb`).classList.add('hidden');
+              if (matchDoneCount === qObj.pairs.length) {
+                unlockNext(`✅ <strong>Semua pasangan cocok!</strong> ${qObj.exp}`);
+              }
+            } else {
+              showErr("❌ Pasangan belum cocok. Coba pilih pasangan lain di kolom kanan!");
+            }
+          }
+        },
+        next() {
+          if (!solved) return;
+          orderState = [];
+          idx = (idx + 1) % questionsBank.length;
+          render();
+        }
+      };
+
+      render();
+    }
+
+    // ================= BANK SOAL VARIATIF BAB 1 =================
+    createQuizEngine('b1QuizContainer', [
+      {
+        type: 'fill',
+        typeLabel: 'Isian Singkat (Keyboard Shortcut)',
+        q: 'Kamu tidak sengaja menghapus satu paragraf penting di dokumen. Ketikkan kombinasi tombol keyboard untuk membatalkan tindakan terakhir (Undo)!',
+        placeholder: 'Contoh: Ctrl + X',
+        answers: ['ctrl+z', 'ctrlz'],
+        hint: 'Gunakan tombol Ctrl diikuti huruf terakhir dalam abjad.',
+        exp: 'Ctrl + Z menjalankan perintah Undo untuk membatalkan langkah terakhir.'
+      },
+      {
+        type: 'order',
+        typeLabel: 'Mengurutkan Langkah Kerja',
+        q: 'Susunlah alur kerja pembuatan dokumen pengolah kata dari awal hingga selesai menggunakan tombol ▲ / ▼:',
+        shuffled: [
+          'Simpan file dokumen (Save / Save As)',
+          'Atur ukuran kertas dan margin (Layout)',
+          'Buka aplikasi pengolah kata & dokumen baru',
+          'Edit format & perbaiki kata (Find & Replace)',
+          'Ketik naskah dokumen pada Workspace'
+        ],
+        correct: [
+          'Buka aplikasi pengolah kata & dokumen baru',
+          'Atur ukuran kertas dan margin (Layout)',
+          'Ketik naskah dokumen pada Workspace',
+          'Edit format & perbaiki kata (Find & Replace)',
+          'Simpan file dokumen (Save / Save As)'
+        ],
+        exp: 'Alur kerja dimulai dari membuka dokumen, mengatur layout, mengetik isi, mengedit/mengoreksi, lalu menyimpannya.'
+      },
+      {
+        type: 'mcq',
+        typeLabel: 'Pilihan Ganda (Analisis Fitur)',
+        q: 'Saat kamu menekan Cut (Ctrl+X) pada sebuah kalimat lalu menempelkannya dengan Paste (Ctrl+V) di halaman lain, apa yang terjadi pada kalimat di posisi asalnya?',
+        opts: [
+          'Kalimat di posisi asal terhapus karena dipindahkan melalui Clipboard',
+          'Kalimat di posisi asal tetap ada dan menjadi ganda',
+          'Kalimat berubah menjadi huruf tebal secara otomatis',
+          'Dokumen langsung tertutup tanpa menyimpan'
+        ],
+        ans: 0,
+        exp: 'Cut memindahkan data melalui memori Clipboard sehingga data di tempat asal hilang setelah ditempel.'
+      }
+    ]);
+
+    // ================= BANK SOAL VARIATIF BAB 2 =================
+    createQuizEngine('b2QuizContainer', [
+      {
+        type: 'match',
+        typeLabel: 'Menjodohkan Pasangan (Klik Kiri lalu Kanan)',
+        q: 'Pasangkan setiap ekstensi file di kolom kiri dengan jenis berkas & aplikasi pembukanya di kolom kanan:',
+        pairs: [
+          { left: '📊 Rekap_Nilai.xlsx', right: 'Lembar Kerja (Microsoft Excel / Google Sheets)' },
+          { left: '🖼️ Logo_Transparan.png', right: 'Gambar Grafis Latar Transparan (Photos / Canva)' },
+          { left: '📦 Kumpulan_Tugas.zip', right: 'Arsip Kompresi File (WinRAR / ZArchiver)' },
+          { left: '🎬 Video_Praktikum.mp4', right: 'Berkas Video Digital (VLC Media Player)' }
+        ],
+        rightOrder: [2, 0, 3, 1],
+        exp: 'Setiap ekstensi file menentukan jenis data dan aplikasi yang tepat untuk membukanya.'
+      },
+      {
+        type: 'fill',
+        typeLabel: 'Isian Singkat (Ekstensi Berkas)',
+        q: 'Tuliskan ekstensi file standar untuk dokumen portabel yang tata letaknya tetap saat dicetak dan dibuka di Adobe Acrobat Reader (awali dengan tanda titik):',
+        placeholder: 'Contoh: .mp3',
+        answers: ['.pdf', 'pdf'],
+        hint: 'Singkatan dari Portable Document Format (3 huruf).',
+        exp: 'Ekstensi .pdf (Portable Document Format) menjaga tata letak dokumen tetap rapi di berbagai perangkat.'
+      },
+      {
+        type: 'mcq',
+        typeLabel: 'Pilihan Ganda (Studi Kasus)',
+        q: 'Jika siswa mengubah nama file "Lagu_Daerah.mp3" menjadi "Lagu_Daerah.docx" lewat fitur Rename, apa akibatnya?',
+        opts: [
+          'File gagal dibuka karena struktur data biner aslinya tetap audio MP3, bukan dokumen Word',
+          'Lirik lagu otomatis tertulis rapi di halaman Microsoft Word',
+          'Ukuran file menyusut menjadi setengahnya',
+          'File otomatis berpindah ke Google Drive'
+        ],
+        ans: 0,
+        exp: 'Mengganti nama ekstensi secara manual tidak mengubah isi biner file sehingga aplikasi pembaca akan gagal membukanya.'
+      }
+    ]);
+
+    // ================= BANK SOAL VARIATIF BAB 3 =================
+    createQuizEngine('b3QuizContainer', [
+      {
+        type: 'order',
+        typeLabel: 'Mengurutkan Siklus Mesin CPU',
+        q: 'Urutkan 4 tahapan siklus operasi CPU (Machine Cycle) dari tahap pertama hingga terakhir:',
+        shuffled: [
+          'Execute — ALU menghitung operasi matematika/logika',
+          'Store — Menyimpan hasil ke Register/RAM',
+          'Fetch — Control Unit mengambil instruksi dari RAM',
+          'Decode — Control Unit menerjemahkan kode perintah'
+        ],
+        correct: [
+          'Fetch — Control Unit mengambil instruksi dari RAM',
+          'Decode — Control Unit menerjemahkan kode perintah',
+          'Execute — ALU menghitung operasi matematika/logika',
+          'Store — Menyimpan hasil ke Register/RAM'
+        ],
+        exp: 'Siklus CPU selalu berjalan berurutan: Fetch (Ambil) → Decode (Terjemahkan) → Execute (Eksekusi) → Store (Simpan).'
+      },
+      {
+        type: 'match',
+        typeLabel: 'Menjodohkan Komponen Sistem Komputer',
+        q: 'Pasangkan setiap perangkat/komponen di kolom kiri dengan kategorinya yang tepat di kolom kanan:',
+        pairs: [
+          { left: '📠 Scanner (Pemindai)', right: 'Input Device (Perangkat Masukan)' },
+          { left: '🖨️ Printer & Plotter', right: 'Output Device (Perangkat Keluaran)' },
+          { left: '⚡ RAM (Memori Sementara)', right: 'Storage Primer Bersifat Volatile' },
+          { left: '🧑‍💻 Programmer', right: 'Brainware (Pembuat Kode Program)' }
+        ],
+        rightOrder: [3, 1, 0, 2],
+        exp: 'Sistem komputer terdiri atas sinergi Hardware (Input, Process, Output, Storage), Software, dan Brainware.'
+      },
+      {
+        type: 'fill',
+        typeLabel: 'Isian Singkat (Arsitektur CPU)',
+        q: 'Tuliskan singkatan 3 huruf dari bagian di dalam CPU yang bertugas melakukan perhitungan aritmatika dan perbandingan logika!',
+        placeholder: 'Contoh: RAM',
+        answers: ['alu'],
+        hint: 'Singkatan dari Arithmetic Logic Unit.',
+        exp: 'ALU (Arithmetic Logic Unit) adalah bagian inti CPU yang mengeksekusi operasi matematika dan logika.'
+      }
+    ]);
   </script>
 </body>
 </html>
-<!-- ===================================================================== -->
-<!-- TAHAP 2: BAB 2 (MANAJEMEN FILE, FOLDER & EKSTENSI FILE) -->
-<!-- Cukup tempelkan langsung di bagian paling bawah file index.html -->
-<!-- ===================================================================== -->
-<section id="bab2" class="bab">
-  <h2 class="bab-title">BAB 2. MANAJEMEN FILE, FOLDER &amp; EKSTENSI BERKAS</h2>
-  <p>
-    <strong>File (Berkas)</strong> adalah satuan data atau informasi digital yang tersimpan di media penyimpanan komputer/HP (seperti dokumen tugas, foto, lagu, atau video). Sementara itu, <strong>Folder (Direktori)</strong> adalah wadah virtual yang digunakan untuk mengelompokkan berbagai file maupun subfolder agar tertata rapi, terstruktur, dan mudah ditemukan kembali.
-  </p>
+"""
 
-  <h3 class="sub-title">A. Manajemen File &amp; Folder pada Laptop, HP, dan Cloud Storage</h3>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Platform / Media</th>
-          <th>Aplikasi Bawaan &amp; Pihak Ketiga</th>
-          <th>Langkah Membuat Folder Baru</th>
-          <th>Karakteristik Penyimpanan</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Laptop / PC</strong><br>(Windows / macOS)</td>
-          <td>Windows File Explorer, Finder (macOS), Total Commander</td>
-          <td>Klik kanan di area kosong &rarr; <strong>New</strong> &rarr; <strong>Folder</strong> (atau tekan <code>Ctrl + Shift + N</code>) &rarr; ketik nama &rarr; <strong>Enter</strong>.</td>
-          <td>Tersimpan lokal di Harddisk (HDD) atau SSD; akses sangat cepat tanpa butuh internet.</td>
-        </tr>
-        <tr>
-          <td><strong>Smartphone (HP)</strong><br>(Android / iOS)</td>
-          <td>Files by Google, File Manager bawaan, File Apple (iOS), ZArchiver</td>
-          <td>Buka File Manager &rarr; masuk ke <em>Penyimpanan Internal</em> &rarr; ketuk ikon <strong>titik tiga / tambah (+)</strong> &rarr; pilih <strong>Buat Folder Baru</strong>.</td>
-          <td>Tersimpan di memori internal HP atau kartu memori eksternal (MicroSD).</td>
-        </tr>
-        <tr>
-          <td><strong>Cloud Storage</strong><br>(Penyimpanan Awan)</td>
-          <td>Google Drive, Microsoft OneDrive, Apple iCloud, Dropbox, TeraBox</td>
-          <td>Buka layanan cloud (misal Google Drive) &rarr; klik tombol <strong>+ Baru (New)</strong> &rarr; pilih <strong>Folder baru</strong> &rarr; ketik nama &rarr; <strong>Buat</strong>.</td>
-          <td>Tersimpan di server internet; dapat diakses dari HP maupun laptop kapan saja &amp; mudah dibagikan lewat tautan.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_code)
 
-  <figure class="diagram-frame">
-    <svg viewBox="0 0 900 265" xmlns="http://www.w3.org/2000/svg">
-      <rect x="8" y="8" width="884" height="249" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
-      <text x="450" y="34" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f766e">ILUSTRASI HIERARKI FOLDER &amp; SINKRONISASI LINTAS PERANGKAT (LAPTOP • HP • CLOUD)</text>
-
-      <!-- Kiri: Hierarki Pohon Folder -->
-      <rect x="26" y="50" width="415" height="190" rx="12" fill="#ffffff" stroke="#94a3b8" stroke-width="1.8"/>
-      <text x="233" y="73" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1e293b">1. Struktur Hierarki Folder (Tree Directory)</text>
-      <!-- Root Folder -->
-      <rect x="46" y="86" width="165" height="28" rx="6" fill="#0f766e"/>
-      <text x="56" y="104" font-size="11.5" font-weight="bold" fill="#ffffff">📁 Data (D:) / Sekolah</text>
-      <!-- Garis cabang -->
-      <line x1="68" y1="114" x2="68" y2="212" stroke="#0f766e" stroke-width="2"/>
-      <line x1="68" y1="136" x2="96" y2="136" stroke="#0f766e" stroke-width="2"/>
-      <line x1="68" y1="212" x2="96" y2="212" stroke="#0f766e" stroke-width="2"/>
-      <!-- Subfolder 1 -->
-      <rect x="96" y="122" width="155" height="26" rx="5" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
-      <text x="106" y="139" font-size="11" font-weight="bold" fill="#92400e">📂 Kelas_8_Informatika</text>
-      <!-- File di dalam subfolder -->
-      <line x1="118" y1="148" x2="118" y2="188" stroke="#d97706" stroke-width="1.8"/>
-      <line x1="118" y1="164" x2="142" y2="164" stroke="#d97706" stroke-width="1.8"/>
-      <line x1="118" y1="188" x2="142" y2="188" stroke="#d97706" stroke-width="1.8"/>
-      <text x="148" y="168" font-size="11" fill="#334155">📄 Laporan_Bab1.docx</text>
-      <text x="148" y="192" font-size="11" fill="#334155">📊 Nilai_Praktik.xlsx</text>
-      <!-- Subfolder 2 -->
-      <rect x="96" y="199" width="155" height="26" rx="5" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
-      <text x="106" y="216" font-size="11" font-weight="bold" fill="#0369a1">📂 Dokumentasi_OSIS</text>
-
-      <!-- Kanan: Cloud Sync Laptop & HP -->
-      <rect x="460" y="50" width="414" height="190" rx="12" fill="#ffffff" stroke="#94a3b8" stroke-width="1.8"/>
-      <text x="667" y="73" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1e293b">2. Sinkronisasi Cloud Storage (Google Drive / OneDrive)</text>
-      <!-- Cloud Tengah -->
-      <g class="anim-float">
-        <path d="M628 134 Q608 134 608 116 Q608 99 627 98 Q636 79 664 79 Q690 79 699 97 Q720 98 720 116 Q720 134 699 134 Z" fill="#ccfbf1" stroke="#0f766e" stroke-width="2.5"/>
-        <text x="664" y="114" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#115e59">CLOUD DRIVE</text>
-      </g>
-      <!-- Garis Sinkronisasi Bergerak -->
-      <line x1="622" y1="136" x2="548" y2="178" stroke="#0f766e" stroke-width="2.8" class="anim-dash-flow"/>
-      <line x1="706" y1="136" x2="782" y2="178" stroke="#d97706" stroke-width="2.8" class="anim-dash-flow"/>
-      <!-- Laptop Bawah Kiri -->
-      <rect x="485" y="178" width="118" height="44" rx="8" fill="#1e293b"/>
-      <text x="544" y="204" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#ffffff">💻 Laptop / PC</text>
-      <!-- HP Bawah Kanan -->
-      <rect x="728" y="178" width="118" height="44" rx="8" fill="#0f766e"/>
-      <text x="787" y="204" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#ffffff">📱 Smartphone</text>
-    </svg>
-    <figcaption>Gambar 2.1 Struktur pohon direktori folder-subfolder (kiri) dan alur sinkronisasi file antarperangkat melalui Cloud Storage (kanan).</figcaption>
-  </figure>
-
-  <h3 class="sub-title">B. Simulasi Interaktif File Explorer (Coba Buat Folder di Laptop, HP, &amp; Cloud!)</h3>
-  <div class="sim-box">
-    <div class="sim-title">SIMULASI PENGELOLA FILE LINTAS PLATFORM (KLIK TOMBOL DI BAWAH)</div>
-    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem; margin-bottom:0.85rem;">
-      <button class="btn btn-primary" id="btnPlatLaptop" onclick="setExplorerPlat('laptop')">💻 Laptop (File Explorer)</button>
-      <button class="btn btn-outline" id="btnPlatHp" onclick="setExplorerPlat('hp')">📱 HP (File Manager)</button>
-      <button class="btn btn-outline" id="btnPlatCloud" onclick="setExplorerPlat('cloud')">☁️ Cloud (Google Drive)</button>
-      <button class="btn btn-accent" onclick="addSimFolder()">➕ Buat Folder Baru</button>
-    </div>
-
-    <div style="background:#ffffff; border:2px solid #94a3b8; border-radius:12px; overflow:hidden; text-align:left; max-width:740px; margin:0 auto;">
-      <div id="simExpHeader" style="background:#1e293b; color:#fff; padding:0.55rem 0.9rem; font-size:0.86rem; font-weight:700;">
-        💻 Windows File Explorer — Penyimpanan Lokal
-      </div>
-      <div id="simExpPath" style="background:#f1f5f9; color:#0f766e; padding:0.45rem 0.9rem; font-family:monospace; font-size:0.84rem; font-weight:700; border-bottom:1px solid #cbd5e1;">
-        Alamat Direktori: Data (D:) &gt; Sekolah &gt; Kelas_8
-      </div>
-      <div id="simExpList" style="padding:0.85rem 1rem; min-height:145px; font-size:0.92rem;"></div>
-    </div>
-    <div class="sim-result" id="simExpTip">
-      <strong>Langkah di Laptop:</strong> Klik kanan area kosong &rarr; pilih <em>New</em> &rarr; klik <em>Folder</em> &rarr; ketik nama folder &rarr; tekan <strong>Enter</strong>.
-    </div>
-  </div>
-
-  <h3 class="sub-title">C. Ekstensi File Berdasarkan Kategori dan Aplikasi Pembukanya</h3>
-  <p>
-    <strong>Ekstensi file (<em>file extension</em>)</strong> adalah akhiran berupa 3 hingga 4 huruf di belakang tanda titik (<code>.</code>) pada nama file (contoh: <code>Tugas_IPA<strong>.docx</strong></code>). Ekstensi berfungsi memberi tahu sistem operasi jenis isi data di dalam file tersebut dan aplikasi apa yang tepat untuk membukanya.
-  </p>
-
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Kategori File</th>
-          <th>Contoh Ekstensi</th>
-          <th>Keterangan Format</th>
-          <th>Aplikasi Pembuka / Pengolah</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Dokumen &amp; Data</strong></td>
-          <td><code>.docx</code>, <code>.pdf</code>, <code>.xlsx</code>, <code>.pptx</code>, <code>.txt</code></td>
-          <td>Dokumen teks berformat, dokumen portabel tetap, tabel angka, presentasi, dan teks polos.</td>
-          <td>Microsoft Office (Word/Excel/PPT), Google Docs/Sheets/Slides, Adobe Reader, Notepad</td>
-        </tr>
-        <tr>
-          <td><strong>Gambar / Grafis</strong></td>
-          <td><code>.jpg</code> / <code>.jpeg</code>, <code>.png</code>, <code>.gif</code>, <code>.svg</code></td>
-          <td>Foto digital terkompresi, gambar latar transparan, animasi pendek, dan gambar vektor.</td>
-          <td>Photos, Galeri HP, Paint, Canva, Adobe Photoshop, Web Browser</td>
-        </tr>
-        <tr>
-          <td><strong>Audio (Suara)</strong></td>
-          <td><code>.mp3</code>, <code>.wav</code>, <code>.m4a</code>, <code>.ogg</code></td>
-          <td>File musik/rekaman suara terkompresi ukuran kecil (<code>.mp3</code>) maupun kualitas studio (<code>.wav</code>).</td>
-          <td>VLC Media Player, Windows Media Player, Pemutar Musik HP, Audacity</td>
-        </tr>
-        <tr>
-          <td><strong>Video</strong></td>
-          <td><code>.mp4</code>, <code>.mkv</code>, <code>.avi</code>, <code>.mov</code></td>
-          <td>Berkas gambar bergerak beserta suara dengan berbagai tingkat resolusi.</td>
-          <td>VLC Media Player, MX Player, Pemutar Video HP, CapCut</td>
-        </tr>
-        <tr>
-          <td><strong>Arsip / Kompresi</strong></td>
-          <td><code>.zip</code>, <code>.rar</code>, <code>.7z</code></td>
-          <td>Menggabungkan banyak file/folder menjadi satu paket arsip dan memperkecil ukuran file.</td>
-          <td>WinRAR, 7-Zip, Windows File Explorer, ZArchiver (Android)</td>
-        </tr>
-        <tr>
-          <td><strong>Aplikasi / Sistem</strong></td>
-          <td><code>.exe</code>, <code>.apk</code>, <code>.html</code></td>
-          <td>Program instalasi Windows (<code>.exe</code>), paket aplikasi Android (<code>.apk</code>), dan halaman web (<code>.html</code>).</td>
-          <td>Sistem Operasi Windows, Android Installer, Google Chrome / Edge</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="callout">
-    <div class="callout-title">Peringatan Penting tentang Pengubahan Ekstensi Manual:</div>
-    <p>Mengubah nama ekstensi file secara paksa lewat fitur <em>Rename</em> (misalnya mengganti <code>Video_Wisata.mp4</code> menjadi <code>Video_Wisata.pdf</code>) <strong>tidak mengubah format isi data biner di dalamnya</strong>. Akibatnya, file tersebut akan gagal dibuka (<em>corrupted/unreadable</em>). Untuk mengubah format secara sah, gunakan fitur <strong>Save As / Export</strong> atau aplikasi konverter.</p>
-  </div>
-
-  <!-- Tombol Tes Bab 2 -->
-  <div class="test-launcher">
-    <div class="test-launcher-text">
-      <strong>Uji Pemahaman Bab 2 (Kuis Interaktif)</strong>
-      <span>Latihan langsung menentukan aplikasi pembuka ekstensi file dan cara manajemen folder lintas perangkat!</span>
-    </div>
-    <div class="launcher-btns">
-      <button class="btn btn-primary" onclick="openPractice('bab2Practice')">📂 Mulai Latihan Bab 2</button>
-    </div>
-  </div>
-</section>
-
-<!-- ===================================================================== -->
-<!-- PRACTICE VIEW BAB 2 -->
-<!-- ===================================================================== -->
-<section id="bab2Practice" class="practice-view hidden">
-  <div class="practice-header">
-    <h2>📂 Latihan Mandiri Bab 2: Manajemen File, Folder &amp; Ekstensi</h2>
-    <button class="btn btn-secondary" onclick="showMainModule()">&larr; Kembali ke Modul</button>
-  </div>
-  <div class="quiz-card">
-    <span class="quiz-badge" id="b2QBadge">Soal #1</span>
-    <div class="quiz-question" id="b2QText">Memuat soal...</div>
-    <div class="quiz-options" id="b2QOptions"></div>
-    <div id="b2QFeedback" class="feedback-box hidden"></div>
-    <div style="margin-top:1rem;">
-      <button class="btn btn-accent" onclick="nextBab2Question()">Soal Berikutnya &rarr;</button>
-    </div>
-  </div>
-</section>
-
-<script>
-  // Daftarkan Bab 2 & Latihan Bab 2 ke slot utama secara otomatis
-  appendModuleBlocks(['bab2'], ['bab2Practice']);
-
-  // Simulasi File Explorer Bab 2
-  const expTemplates = {
-    laptop: {
-      header: "💻 Windows File Explorer — Penyimpanan Lokal",
-      path: "Alamat Direktori: Data (D:) > Sekolah > Kelas_8",
-      tip: "<strong>Langkah di Laptop:</strong> Klik kanan area kosong &rarr; pilih <em>New</em> &rarr; klik <em>Folder</em> (atau tekan <code>Ctrl + Shift + N</code>) &rarr; ketik nama &rarr; <strong>Enter</strong>.",
-      items: [
-        "📁 <strong>Informatika</strong> (Folder)",
-        "&nbsp;&nbsp;&nbsp;&nbsp;└── 📄 Tugas_Pengolah_Kata.docx",
-        "&nbsp;&nbsp;&nbsp;&nbsp;└── 📊 Rekap_Nilai_Kelas8.xlsx",
-        "📁 <strong>IPA_Praktikum</strong> (Folder)",
-        "&nbsp;&nbsp;&nbsp;&nbsp;└── 🖼️ Struktur_Sel.png"
-      ]
-    },
-    hp: {
-      header: "📱 Android / iOS File Manager — Memori Internal",
-      path: "Alamat Direktori: Penyimpanan Internal > Documents > Tugas_Sekolah",
-      tip: "<strong>Langkah di HP:</strong> Buka aplikasi <em>File Manager / Files</em> &rarr; ketuk ikon <strong>titik tiga / tambah (+)</strong> &rarr; pilih <strong>Buat Folder Baru</strong>.",
-      items: [
-        "📁 <strong>Foto_Kegiatan_Sekolah</strong> (Folder)",
-        "&nbsp;&nbsp;&nbsp;&nbsp;└── 🖼️ IMG_20261123.jpg",
-        "📁 <strong>Materi_Unduhan</strong> (Folder)",
-        "&nbsp;&nbsp;&nbsp;&nbsp;└── 📕 Modul_Informatika_8.pdf"
-      ]
-    },
-    cloud: {
-      header: "☁️ Google Drive — Cloud Storage (Penyimpanan Awan)",
-      path: "Alamat Direktori: Drive Saya > Proyek_Kelompok_8",
-      tip: "<strong>Langkah di Google Drive:</strong> Klik tombol <strong>+ Baru (New)</strong> di pojok kiri atas &rarr; pilih <strong>Folder baru</strong> &rarr; ketik nama &rarr; klik <strong>Buat</strong>.",
-      items: [
-        "📁 <strong>Bahan_Presentasi_Kelompok</strong> (Folder)",
-        "&nbsp;&nbsp;&nbsp;&nbsp;└── 📽️ Presentasi_Kelompok.pptx",
-        "&nbsp;&nbsp;&nbsp;&nbsp;└── 🎬 Video_Dokumentasi.mp4"
-      ]
-    }
-  };
-
-  let activeExpPlat = 'laptop';
-  let newFolderCount = 1;
-
-  function renderSimExplorer() {
-    const data = expTemplates[activeExpPlat];
-    document.getElementById('simExpHeader').innerHTML = data.header;
-    document.getElementById('simExpPath').innerHTML = data.path;
-    document.getElementById('simExpTip').innerHTML = data.tip;
-    const listBox = document.getElementById('simExpList');
-    listBox.innerHTML = data.items.map(row => `<div style="padding:4px 6px; border-bottom:1px dashed #e2e8f0;">${row}</div>`).join("");
-  }
-
-  function setExplorerPlat(plat) {
-    activeExpPlat = plat;
-    ['laptop', 'hp', 'cloud'].forEach(p => {
-      const btn = document.getElementById('btnPlat' + p.charAt(0).toUpperCase() + p.slice(1));
-      if (btn) btn.className = (p === plat) ? 'btn btn-primary' : 'btn btn-outline';
-    });
-    renderSimExplorer();
-  }
-
-  function addSimFolder() {
-    const nama = `📁 <strong style="color:#d97706;">Folder_Tugas_Baru_${newFolderCount++}</strong> (Baru saja dibuat!)`;
-    expTemplates[activeExpPlat].items.unshift(nama);
-    renderSimExplorer();
-  }
-
-  renderSimExplorer();
-
-  // Bank Soal Latihan Bab 2
-  const bab2Bank = [
-    {
-      q: "Rina ingin membuat logo sekolah dengan latar belakang transparan agar mudah ditempel di atas poster berwarna. Ekstensi file gambar yang paling tepat adalah...",
-      opts: [".png", ".mp3", ".txt", ".exe"],
-      ans: 0,
-      exp: "Format .png (Portable Network Graphics) mendukung transparansi latar belakang (alpha channel) tanpa mengurangi ketajaman gambar."
-    },
-    {
-      q: "Andi menerima file tugas dengan nama 'Laporan_Akhir.xlsx'. Aplikasi yang paling tepat digunakan Andi untuk membuka dan mengolah file tersebut adalah...",
-      opts: ["VLC Media Player", "Microsoft Excel atau Google Sheets", "Adobe Photoshop", "ZArchiver"],
-      ans: 1,
-      exp: "Ekstensi .xlsx merupakan format standar berkas lembar kerja (spreadsheet) yang dibuka dengan Microsoft Excel atau Google Sheets."
-    },
-    {
-      q: "Kamu memiliki 25 file foto kegiatan OSIS dan ingin menggabungkannya menjadi satu file arsip tunggal agar mudah dikirim lewat email. Ekstensi file hasil kompresi tersebut adalah...",
-      opts: [".zip atau .rar", ".wav atau .mp3", ".apk atau .exe", ".pptx atau .pdf"],
-      ans: 0,
-      exp: "Format .zip dan .rar berfungsi membungkus banyak file/folder menjadi satu berkas arsip terkompresi."
-    },
-    {
-      q: "Keunggulan utama menyimpan tugas kelompok di layanan Cloud Storage seperti Google Drive dibandingkan hanya di flashdisk adalah...",
-      opts: [
-        "Dapat diakses dari laptop maupun HP kapan saja selama terhubung internet dan mudah dibagikan lewat tautan",
-        "Tidak membutuhkan jaringan internet sama sekali saat mengunggah file baru",
-        "Mengubah semua file video secara otomatis menjadi dokumen teks",
-        "Hanya bisa dibuka pada satu komputer saja"
-      ],
-      ans: 0,
-      exp: "Cloud Storage menyimpan data di server awan sehingga sinkron lintas perangkat (HP/Laptop) dan mendukung berbagi tautan kolaborasi."
-    },
-    {
-      q: "Apa yang terjadi jika seseorang mengubah ekstensi file 'Musik_Favorit.mp3' menjadi 'Musik_Favorit.pdf' secara manual melalui fitur Rename?",
-      opts: [
-        "Lirik lagu otomatis berubah menjadi dokumen tulisan PDF",
-        "File akan rusak/gagal dibuka karena struktur data biner aslinya tetap audio MP3",
-        "Ukuran file berkurang hingga 90%",
-        "File otomatis terunggah ke Google Drive"
-      ],
-      ans: 1,
-      exp: "Mengganti nama ekstensi secara manual tidak mengonversi struktur data biner di dalam file, sehingga aplikasi pembaca PDF tidak dapat membacanya."
-    }
-  ];
-
-  let b2Idx = 0;
-  function renderBab2Question() {
-    const item = bab2Bank[b2Idx % bab2Bank.length];
-    document.getElementById('b2QBadge').textContent = `Soal #${b2Idx + 1}`;
-    document.getElementById('b2QText').textContent = item.q;
-    const optBox = document.getElementById('b2QOptions');
-    const fb = document.getElementById('b2QFeedback');
-    fb.classList.add('hidden');
-    optBox.innerHTML = "";
-    item.opts.forEach((optText, i) => {
-      const btn = document.createElement('button');
-      btn.className = "opt-btn";
-      btn.textContent = `${String.fromCharCode(65 + i)}. ${optText}`;
-      btn.onclick = () => {
-        fb.classList.remove('hidden', 'ok', 'err');
-        if (i === item.ans) {
-          fb.classList.add('ok');
-          fb.innerHTML = `✅ <strong>Benar!</strong> ${item.exp}`;
-        } else {
-          fb.classList.add('err');
-          fb.innerHTML = `❌ <strong>Belum tepat.</strong> Jawaban yang benar adalah <strong>${String.fromCharCode(65 + item.ans)}</strong>. ${item.exp}`;
-        }
-      };
-      optBox.appendChild(btn);
-    });
-  }
-
-  function nextBab2Question() {
-    b2Idx++;
-    renderBab2Question();
-  }
-
-  renderBab2Question();
-</script>
-<!-- ===================================================================== -->
-<!-- TAHAP 3: BAB 3 (SISTEM KOMPUTER, KLASIFIKASI HARDWARE & SIKLUS CPU) -->
-<!-- Cukup tempelkan langsung di bagian paling bawah file index.html -->
-<!-- ===================================================================== -->
-<section id="bab3" class="bab">
-  <h2 class="bab-title">BAB 3. SISTEM KOMPUTER &amp; ALUR OPERASI CPU (MACHINE CYCLE)</h2>
-  <p>
-    <strong>Sistem Komputer</strong> adalah jaringan elemen-elemen yang saling berhubungan dan bekerja sama untuk menerima masukan (<em>input</em>), memproses data (<em>process</em>), menyimpan (<em>storage</em>), serta menghasilkan keluaran informasi (<em>output</em>). Agar komputer dapat berfungsi, tiga komponen utama di bawah ini wajib tersedia secara lengkap.
-  </p>
-
-  <h3 class="sub-title">A. Komponen Utama Sistem Komputer (Hardware, Software, Brainware)</h3>
-  <figure class="diagram-frame">
-    <svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg">
-      <rect x="8" y="8" width="884" height="244" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
-      <text x="450" y="34" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f766e">TRILOGI SISTEM KOMPUTER: SALING TERHUBUNG &amp; TIDAK DAPAT DIPISAHKAN</text>
-
-      <!-- Garis Penghubung Bergerak -->
-      <line x1="285" y1="138" x2="325" y2="138" stroke="#d97706" stroke-width="4" class="anim-dash-flow"/>
-      <line x1="575" y1="138" x2="615" y2="138" stroke="#d97706" stroke-width="4" class="anim-dash-flow"/>
-
-      <!-- 1. HARDWARE -->
-      <g class="anim-step-1">
-        <rect x="25" y="52" width="260" height="178" rx="12" fill="#ffffff" stroke="#0f766e" stroke-width="2.5"/>
-        <rect x="25" y="52" width="260" height="32" rx="10" fill="#0f766e"/>
-        <text x="155" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">1. HARDWARE (Perangkat Keras)</text>
-        <!-- Ikon Monitor & CPU -->
-        <rect x="115" y="96" width="60" height="38" rx="4" fill="#1e293b"/>
-        <rect x="120" y="101" width="50" height="28" fill="#5eead4"/>
-        <rect x="182" y="96" width="20" height="44" rx="3" fill="#475569"/>
-        <text x="155" y="160" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1e293b">Komponen Fisik Berwujud Nyata</text>
-        <text x="155" y="178" text-anchor="middle" font-size="11" fill="#475569">Dapat dilihat, disentuh, dan diraba.</text>
-        <text x="155" y="196" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0f766e">Input • Process • Output • Storage</text>
-      </g>
-
-      <!-- 2. SOFTWARE -->
-      <g class="anim-step-2">
-        <rect x="325" y="52" width="250" height="178" rx="12" fill="#ffffff" stroke="#0284c7" stroke-width="2.5"/>
-        <rect x="325" y="52" width="250" height="32" rx="10" fill="#0284c7"/>
-        <text x="450" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">2. SOFTWARE (Perangkat Lunak)</text>
-        <!-- Ikon Jendela Kode / Aplikasi -->
-        <rect x="415" y="96" width="70" height="44" rx="6" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
-        <line x1="425" y1="110" x2="475" y2="110" stroke="#0284c7" stroke-width="3"/>
-        <line x1="425" y1="120" x2="462" y2="120" stroke="#38bdf8" stroke-width="2.5"/>
-        <line x1="425" y1="130" x2="470" y2="130" stroke="#38bdf8" stroke-width="2.5"/>
-        <text x="450" y="160" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1e293b">Program &amp; Instruksi Digital</text>
-        <text x="450" y="178" text-anchor="middle" font-size="11" fill="#475569">Tidak berwujud fisik, mengatur mesin.</text>
-        <text x="450" y="196" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0284c7">OS • Aplikasi • Pemrograman • Utilitas</text>
-      </g>
-
-      <!-- 3. BRAINWARE -->
-      <g class="anim-step-3">
-        <rect x="615" y="52" width="260" height="178" rx="12" fill="#ffffff" stroke="#d97706" stroke-width="2.5"/>
-        <rect x="615" y="52" width="260" height="32" rx="10" fill="#d97706"/>
-        <text x="745" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">3. BRAINWARE (Pengguna / SDM)</text>
-        <!-- Ikon Pengguna -->
-        <circle cx="745" cy="108" r="14" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
-        <path d="M720 142 Q720 125 745 125 Q770 125 770 142 Z" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
-        <text x="745" y="160" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1e293b">Manusia Pengendali Sistem</text>
-        <text x="745" y="178" text-anchor="middle" font-size="11" fill="#475569">Mengoperasikan &amp; merancang sistem.</text>
-        <text x="745" y="196" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#b45309">User • Programmer • Analyst • Teknisi</text>
-      </g>
-    </svg>
-    <figcaption>Gambar 3.1 Ketiga komponen utama sistem komputer: Hardware, Software, dan Brainware yang saling terhubung.</figcaption>
-  </figure>
-
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Komponen</th>
-          <th>Sub-Kategori</th>
-          <th>Contoh Nyata</th>
-          <th>Peran Utama</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Software</strong><br>(Perangkat Lunak)</td>
-          <td>Sistem Operasi, Aplikasi, Bahasa Pemrograman, Program Utilitas</td>
-          <td>Windows 11, Android, MS Word, Chrome, Python, Scratch, WinRAR, Antivirus</td>
-          <td>Menjadi jembatan antara pengguna dan perangkat keras serta menjalankan tugas spesifik.</td>
-        </tr>
-        <tr>
-          <td><strong>Brainware</strong><br>(Pengguna / SDM)</td>
-          <td>Operator (End User), Programmer, System Analyst, Administrator &amp; Teknisi</td>
-          <td>Siswa pengetik tugas, pembuat aplikasi web, perancang sistem, teknisi jaringan</td>
-          <td>Memberi perintah, mengolah informasi, dan memelihara kinerja komputer.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3 class="sub-title">B. Klasifikasi Lengkap Perangkat Keras (Hardware) &amp; Visual Ikon</h3>
-  <p>
-    Berdasarkan fungsi kerjanya dalam alur pengolahan data, perangkat keras (<em>hardware</em>) dibagi menjadi 4 kelompok utama. <em>Klik tombol filter kategori di bawah ini untuk melihat seluruh daftar perangkat beserta visualnya!</em>
-  </p>
-
-  <div class="sim-box">
-    <div class="sim-title">EKSPLORATOR KLASIFIKASI PERANGKAT KERAS (KLIK KATEGORI)</div>
-    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem; margin-bottom:1rem;">
-      <button class="btn btn-primary" id="hwBtnAll" onclick="filterHardwareList('all')">Semua (25 Perangkat)</button>
-      <button class="btn btn-outline" id="hwBtnInput" onclick="filterHardwareList('input')">⌨️ Input Device</button>
-      <button class="btn btn-outline" id="hwBtnProcess" onclick="filterHardwareList('process')">⚙️ Process Device</button>
-      <button class="btn btn-outline" id="hwBtnOutput" onclick="filterHardwareList('output')">🖨️ Output Device</button>
-      <button class="btn btn-outline" id="hwBtnStorage" onclick="filterHardwareList('storage')">💾 Storage Device</button>
-    </div>
-    <div id="hardwareCardsGrid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:0.75rem; text-align:left;"></div>
-  </div>
-
-  <div class="callout">
-    <div class="callout-title">Perbandingan Penting Perangkat Keras yang Sering Muncul di Ujian:</div>
-    <p>• <strong>RAM vs ROM:</strong> <strong>RAM</strong> bersifat sementara (<em>volatile</em> — data hilang saat listrik mati), menyimpan aplikasi yang sedang aktif berjalan. <strong>ROM</strong> bersifat permanen (<em>non-volatile</em>), menyimpan program dasar <em>BIOS/UEFI</em> saat komputer pertama dinyalakan.</p>
-    <p>• <strong>HDD vs SSD:</strong> <strong>HDD</strong> menggunakan piringan cakram magnetik yang berputar mekanis, sedangkan <strong>SSD</strong> menggunakan chip memori flash elektronik sehingga kecepatan baca/tulis jauh lebih tinggi dan tahan guncangan.</p>
-    <p>• <strong>Scanner vs Printer:</strong> <strong>Scanner</strong> termasuk <em>Input Device</em> (mengubah dokumen kertas menjadi gambar digital), sedangkan <strong>Printer</strong> termasuk <em>Output Device</em> (mencetak file digital menjadi kertas fisik).</p>
-  </div>
-
-  <h3 class="sub-title">C. Alur Operasi CPU (Machine Cycle: Fetch – Decode – Execute – Store)</h3>
-  <p>
-    Di dalam <strong>CPU (<em>Central Processing Unit</em>)</strong> terdapat dua unit inti: <strong>Control Unit (CU)</strong> sebagai pengatur lalu lintas instruksi dan <strong>ALU (<em>Arithmetic Logic Unit</em>)</strong> sebagai unit pelaksana perhitungan matematika dan perbandingan logika. Setiap satu instruksi diproses melalui 4 tahapan berulang yang disebut <strong>Siklus Mesin (<em>Machine Cycle</em>)</strong>.
-  </p>
-
-  <div class="sim-box">
-    <div class="sim-title">SIMULASI BERGERAK SIKLUS OPERASI CPU (CONTOH INSTRUKSI: 12 + 8)</div>
-    <div style="margin-bottom:0.85rem; display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem;">
-      <button class="btn btn-primary" onclick="startCpuAnimation()">▶️ Jalankan Siklus CPU (12 + 8)</button>
-      <button class="btn btn-secondary" onclick="resetCpuAnimation()">🔄 Reset</button>
-    </div>
-
-    <svg viewBox="0 0 880 230" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; background:#0f172a; border-radius:12px; border:2px solid #334155;">
-      <text x="440" y="28" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#5eead4">ARSITEKTUR SIKLUS PEMROSESAN CPU (MACHINE CYCLE)</text>
-
-      <!-- Garis Panah Antar Tahap -->
-      <line x1="205" y1="115" x2="235" y2="115" stroke="#f59e0b" stroke-width="3.5" class="anim-dash-flow"/>
-      <line x1="425" y1="115" x2="455" y2="115" stroke="#f59e0b" stroke-width="3.5" class="anim-dash-flow"/>
-      <line x1="645" y1="115" x2="675" y2="115" stroke="#f59e0b" stroke-width="3.5" class="anim-dash-flow"/>
-
-      <!-- Tahap 1: FETCH -->
-      <g id="cpuBox1" style="transition: all 0.35s ease;">
-        <rect x="20" y="48" width="185" height="136" rx="10" fill="#1e293b" stroke="#475569" stroke-width="2.5"/>
-        <rect x="42" y="58" width="140" height="22" rx="11" fill="#0f766e"/>
-        <text x="112" y="73" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">1. FETCH (Ambil)</text>
-        <text x="112" y="105" text-anchor="middle" font-size="22">📥</text>
-        <text x="112" y="132" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#f8fafc">Control Unit (CU)</text>
-        <text x="112" y="149" text-anchor="middle" font-size="10.5" fill="#cbd5e1">Mengambil instruksi</text>
-        <text x="112" y="164" text-anchor="middle" font-size="10.5" fill="#fcd34d">12 + 8 dari RAM</text>
-      </g>
-
-      <!-- Tahap 2: DECODE -->
-      <g id="cpuBox2" style="transition: all 0.35s ease;">
-        <rect x="240" y="48" width="185" height="136" rx="10" fill="#1e293b" stroke="#475569" stroke-width="2.5"/>
-        <rect x="262" y="58" width="140" height="22" rx="11" fill="#0284c7"/>
-        <text x="332" y="73" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">2. DECODE (Terjemah)</text>
-        <text x="332" y="105" text-anchor="middle" font-size="22">🔍</text>
-        <text x="332" y="132" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#f8fafc">Control Unit (CU)</text>
-        <text x="332" y="149" text-anchor="middle" font-size="10.5" fill="#cbd5e1">Menerjemahkan tanda</text>
-        <text x="332" y="164" text-anchor="middle" font-size="10.5" fill="#fcd34d">(+) sebagai penjumlahan</text>
-      </g>
-
-      <!-- Tahap 3: EXECUTE -->
-      <g id="cpuBox3" style="transition: all 0.35s ease;">
-        <rect x="460" y="48" width="185" height="136" rx="10" fill="#1e293b" stroke="#475569" stroke-width="2.5"/>
-        <rect x="482" y="58" width="140" height="22" rx="11" fill="#d97706"/>
-        <text x="552" y="73" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">3. EXECUTE (Eksekusi)</text>
-        <text x="552" y="105" text-anchor="middle" font-size="22">⚡</text>
-        <text x="552" y="132" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#f8fafc">Unit ALU</text>
-        <text x="552" y="149" text-anchor="middle" font-size="10.5" fill="#cbd5e1">Menghitung operasi:</text>
-        <text x="552" y="164" text-anchor="middle" font-size="10.5" fill="#fcd34d">12 + 8 = 20</text>
-      </g>
-
-      <!-- Tahap 4: STORE -->
-      <g id="cpuBox4" style="transition: all 0.35s ease;">
-        <rect x="680" y="48" width="180" height="136" rx="10" fill="#1e293b" stroke="#475569" stroke-width="2.5"/>
-        <rect x="700" y="58" width="140" height="22" rx="11" fill="#16a34a"/>
-        <text x="770" y="73" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">4. STORE (Simpan)</text>
-        <text x="770" y="105" text-anchor="middle" font-size="22">💾</text>
-        <text x="770" y="132" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#f8fafc">Register &amp; RAM</text>
-        <text x="770" y="149" text-anchor="middle" font-size="10.5" fill="#cbd5e1">Menyimpan hasil 20</text>
-        <text x="770" y="164" text-anchor="middle" font-size="10.5" fill="#fcd34d">&amp; kirim ke Monitor</text>
-      </g>
-
-      <rect x="20" y="194" width="840" height="26" rx="6" fill="#020617"/>
-      <text id="cpuSvgLog" x="440" y="211" text-anchor="middle" font-family="monospace" font-size="11.5" fill="#4ade80">&gt; Status CPU: Siap menerima instruksi. Klik tombol "Jalankan Siklus CPU" di atas.</text>
-    </svg>
-  </div>
-
-  <!-- Tombol Tes Bab 3 -->
-  <div class="test-launcher">
-    <div class="test-launcher-text">
-      <strong>Uji Pemahaman Bab 3 (Kuis Interaktif)</strong>
-      <span>Latihan langsung klasifikasi perangkat keras, fungsi RAM/ROM, dan urutan siklus kerja CPU!</span>
-    </div>
-    <div class="launcher-btns">
-      <button class="btn btn-primary" onclick="openPractice('bab3Practice')">🧠 Mulai Latihan Bab 3</button>
-    </div>
-  </div>
-</section>
-
-<!-- ===================================================================== -->
-<!-- PRACTICE VIEW BAB 3 -->
-<!-- ===================================================================== -->
-<section id="bab3Practice" class="practice-view hidden">
-  <div class="practice-header">
-    <h2>🧠 Latihan Mandiri Bab 3: Sistem Komputer &amp; Siklus CPU</h2>
-    <button class="btn btn-secondary" onclick="showMainModule()">&larr; Kembali ke Modul</button>
-  </div>
-  <div class="quiz-card">
-    <span class="quiz-badge" id="b3QBadge">Soal #1</span>
-    <div class="quiz-question" id="b3QText">Memuat soal...</div>
-    <div class="quiz-options" id="b3QOptions"></div>
-    <div id="b3QFeedback" class="feedback-box hidden"></div>
-    <div style="margin-top:1rem;">
-      <button class="btn btn-accent" onclick="nextBab3Question()">Soal Berikutnya &rarr;</button>
-    </div>
-  </div>
-</section>
-
-<script>
-  // Daftarkan Bab 3 & Latihan Bab 3 ke slot utama secara otomatis
-  appendModuleBlocks(['bab3'], ['bab3Practice']);
-
-  // Data 25 Perangkat Keras Lengkap
-  const hardwareList = [
-    // INPUT
-    { cat: "input", tag: "Input Device", icon: "⌨️", name: "Keyboard", desc: "Memasukkan input karakter huruf, angka, simbol, dan pintasan perintah." },
-    { cat: "input", tag: "Input Device", icon: "🖱️", name: "Mouse & Touchpad", desc: "Menggerakkan kursor, memilih objek, dan menggulir halaman layar." },
-    { cat: "input", tag: "Input Device", icon: "📱", name: "Touchscreen & Stylus", desc: "Layar sentuh jari dan pena digital untuk menggambar/menulis langsung." },
-    { cat: "input", tag: "Input Device", icon: "📠", name: "Scanner (Pemindai)", desc: "Memindai dokumen kertas fisik menjadi file gambar digital." },
-    { cat: "input", tag: "Input Device", icon: "🎙️", name: "Microphone", desc: "Menangkap gelombang suara menjadi sinyal audio digital." },
-    { cat: "input", tag: "Input Device", icon: "📷", name: "Webcam / Kamera", desc: "Menangkap gambar diam maupun video secara langsung ke komputer." },
-    { cat: "input", tag: "Input Device", icon: "🏷️", name: "Barcode / QR Reader", desc: "Membaca kode batang/QR barang menjadi data teks/angka." },
-    { cat: "input", tag: "Input Device", icon: "🎮", name: "Joystick / Gamepad", desc: "Mengendalikan gerakan karakter/objek pada permainan dan simulasi." },
-
-    // PROCESS
-    { cat: "process", tag: "Process Device", icon: "🧠", name: "CPU / Processor", desc: "Otak utama komputer yang mengeksekusi seluruh instruksi program." },
-    { cat: "process", tag: "Process Device", icon: "🔌", name: "Motherboard", desc: "Papan sirkuit utama tempat terhubungnya CPU, RAM, dan komponen lain." },
-    { cat: "process", tag: "Process Device", icon: "🎨", name: "GPU / VGA Card", desc: "Mengolah pemrosesan grafis, video, dan rendering gambar ke layar." },
-    { cat: "process", tag: "Process Device", icon: "🔊", name: "Sound Card", desc: "Mengolah sinyal audio untuk input mikrofon dan output ke speaker." },
-    { cat: "process", tag: "Process Device", icon: "🌐", name: "NIC / LAN & Wi-Fi Card", desc: "Mengolah paket data jaringan agar komputer terhubung ke internet." },
-    { cat: "process", tag: "Process Device", icon: "⚡", name: "Power Supply (PSU)", desc: "Mengubah arus listrik AC menjadi DC untuk menyuplai daya komponen." },
-
-    // OUTPUT
-    { cat: "output", tag: "Output Device", icon: "🖥️", name: "Monitor", desc: "Menampilkan hasil pemrosesan secara visual pada layar (softcopy)." },
-    { cat: "output", tag: "Output Device", icon: "🖨️", name: "Printer", desc: "Mencetak dokumen teks atau gambar ke media kertas (hardcopy)." },
-    { cat: "output", tag: "Output Device", icon: "📐", name: "Plotter", desc: "Printer berukuran besar khusus mencetak peta, blueprint arsitektur, & spanduk." },
-    { cat: "output", tag: "Output Device", icon: "📢", name: "Speaker & Headphone", desc: "Mengeluarkan hasil pemrosesan komputer berupa gelombang suara." },
-    { cat: "output", tag: "Output Device", icon: "📽️", name: "Proyektor (LCD)", desc: "Memancarkan tampilan layar komputer ke layar lebar atau dinding." },
-
-    // STORAGE
-    { cat: "storage", tag: "Storage (Primer)", icon: "⚡", name: "RAM & Cache Memory", desc: "Memori sementara (volatile) penyimpan data aplikasi yang sedang berjalan." },
-    { cat: "storage", tag: "Storage (Primer)", icon: "🔒", name: "ROM (BIOS/UEFI)", desc: "Memori permanen penyimpan instruksi dasar saat komputer dinyalakan." },
-    { cat: "storage", tag: "Storage (Sekunder)", icon: "💽", name: "HDD (Hard Disk Drive)", desc: "Penyimpanan permanen memakai piringan cakram magnetik berputar." },
-    { cat: "storage", tag: "Storage (Sekunder)", icon: "🚀", name: "SSD (Solid State Drive)", desc: "Penyimpanan permanen berbasis chip flash (jauh lebih cepat dari HDD)." },
-    { cat: "storage", tag: "Storage (Portabel)", icon: "💾", name: "Flashdisk & SD Card", desc: "Media penyimpanan portabel kecil berbasis memori flash." },
-    { cat: "storage", tag: "Storage (Optik)", icon: "💿", name: "CD / DVD / Blu-ray", desc: "Piringan optik yang dibaca dan ditulis menggunakan sinar laser." }
-  ];
-
-  function filterHardwareList(cat) {
-    const mapBtn = { all: 'hwBtnAll', input: 'hwBtnInput', process: 'hwBtnProcess', output: 'hwBtnOutput', storage: 'hwBtnStorage' };
-    Object.keys(mapBtn).forEach(k => {
-      const b = document.getElementById(mapBtn[k]);
-      if (b) b.className = (k === cat) ? 'btn btn-primary' : 'btn btn-outline';
-    });
-
-    const grid = document.getElementById('hardwareCardsGrid');
-    const items = (cat === 'all') ? hardwareList : hardwareList.filter(i => i.cat === cat);
-    grid.innerHTML = items.map(item => `
-      <div style="background:#ffffff; border:1px solid #cbd5e1; border-top:4px solid #0f766e; border-radius:10px; padding:0.8rem;">
-        <div style="display:flex; align-items:center; gap:8px; font-weight:700; color:#1e293b; margin-bottom:4px;">
-          <span style="font-size:1.3rem;">${item.icon}</span>
-          <span>${item.name}</span>
-        </div>
-        <span style="display:inline-block; background:#f0fdfa; color:#0f766e; border:1px solid #99f6e4; font-size:0.72rem; font-weight:700; padding:1px 7px; border-radius:999px; margin-bottom:5px;">${item.tag}</span>
-        <p style="font-size:0.84rem; color:#475569; margin:0;">${item.desc}</p>
-      </div>
-    `).join("");
-  }
-
-  filterHardwareList('all');
-
-  // Simulasi Bergerak Siklus Operasi CPU
-  let cpuCycleTimers = [];
-  function resetCpuAnimation() {
-    cpuCycleTimers.forEach(t => clearTimeout(t));
-    cpuCycleTimers = [];
-    for (let i = 1; i <= 4; i++) {
-      const box = document.getElementById('cpuBox' + i);
-      if (box) {
-        box.style.transform = 'scale(1)';
-        box.querySelector('rect').setAttribute('stroke', '#475569');
-      }
-    }
-    const log = document.getElementById('cpuSvgLog');
-    if (log) log.textContent = '> Status CPU: Direset. Siap menjalankan siklus instruksi berikutnya.';
-  }
-
-  function startCpuAnimation() {
-    resetCpuAnimation();
-    const messages = [
-      '> [1. FETCH]: Control Unit mengambil instruksi "12 + 8" dari alamat memori RAM...',
-      '> [2. DECODE]: Control Unit menerjemahkan kode perintah (+) sebagai penjumlahan...',
-      '> [3. EXECUTE]: Unit ALU menjalankan kalkulasi aritmatika: 12 + 8 = 20...',
-      '> [4. STORE]: Hasil angka "20" disimpan ke Register/RAM lalu ditampilkan di Monitor! ✅'
-    ];
-    for (let i = 1; i <= 4; i++) {
-      const timer = setTimeout(() => {
-        for (let j = 1; j <= 4; j++) {
-          const b = document.getElementById('cpuBox' + j);
-          b.style.transform = 'scale(1)';
-          b.querySelector('rect').setAttribute('stroke', '#475569');
-        }
-        const activeBox = document.getElementById('cpuBox' + i);
-        activeBox.style.transform = 'scale(1.04)';
-        activeBox.querySelector('rect').setAttribute('stroke', '#f59e0b');
-        document.getElementById('cpuSvgLog').textContent = messages[i - 1];
-      }, (i - 1) * 1400);
-      cpuCycleTimers.push(timer);
-    }
-  }
-
-  // Bank Soal Latihan Bab 3
-  const bab3Bank = [
-    {
-      q: "Urutan tahapan siklus kerja CPU (Machine Cycle) yang benar dalam memproses setiap instruksi program adalah...",
-      opts: [
-        "Fetch → Decode → Execute → Store",
-        "Store → Execute → Decode → Fetch",
-        "Decode → Fetch → Store → Execute",
-        "Execute → Store → Fetch → Decode"
-      ],
-      ans: 0,
-      exp: "Siklus CPU selalu diawali dengan mengambil instruksi (Fetch), menerjemahkannya (Decode), menjalankannya di ALU (Execute), lalu menyimpan hasilnya (Store)."
-    },
-    {
-      q: "Bagian di dalam CPU yang bertugas melakukan perhitungan matematika (penjumlahan, perkalian) serta operasi perbandingan logika adalah...",
-      opts: ["ALU (Arithmetic Logic Unit)", "ROM (Read Only Memory)", "Power Supply Unit", "Barcode Reader"],
-      ans: 0,
-      exp: "ALU (Arithmetic Logic Unit) adalah bagian inti CPU yang menjalankan seluruh operasi aritmatika dan logika."
-    },
-    {
-      q: "Ketika listrik tiba-tiba padam saat komputer menyala, data dokumen yang belum sempat disimpan akan hilang karena masih berada di...",
-      opts: ["RAM (Random Access Memory)", "ROM (BIOS)", "SSD (Solid State Drive)", "Flashdisk"],
-      ans: 0,
-      exp: "RAM bersifat volatile (sementara), artinya seluruh data di dalamnya akan hilang ketika aliran listrik terputus."
-    },
-    {
-      q: "Perangkat keras yang berfungsi memindai ijazah atau dokumen kertas fisik menjadi file gambar digital di komputer dikategorikan sebagai...",
-      opts: ["Input Device (Scanner)", "Output Device (Printer)", "Storage Device (HDD)", "Process Device (GPU)"],
-      ans: 0,
-      exp: "Scanner memasukkan data dari media kertas ke dalam sistem komputer sehingga termasuk kelompok Input Device."
-    },
-    {
-      q: "Seseorang yang bertugas menulis baris kode program untuk membangun aplikasi maupun situs web disebut sebagai...",
-      opts: ["Programmer (Brainware)", "Motherboard (Hardware)", "Sistem Operasi (Software)", "Plotter (Output Device)"],
-      ans: 0,
-      exp: "Programmer adalah unsur manusia (Brainware) yang merancang dan menulis kode perangkat lunak."
-    }
-  ];
-
-  let b3Idx = 0;
-  function renderBab3Question() {
-    const item = bab3Bank[b3Idx % bab3Bank.length];
-    document.getElementById('b3QBadge').textContent = `Soal #${b3Idx + 1}`;
-    document.getElementById('b3QText').textContent = item.q;
-    const optBox = document.getElementById('b3QOptions');
-    const fb = document.getElementById('b3QFeedback');
-    fb.classList.add('hidden');
-    optBox.innerHTML = "";
-    item.opts.forEach((optText, i) => {
-      const btn = document.createElement('button');
-      btn.className = "opt-btn";
-      btn.textContent = `${String.fromCharCode(65 + i)}. ${optText}`;
-      btn.onclick = () => {
-        fb.classList.remove('hidden', 'ok', 'err');
-        if (i === item.ans) {
-          fb.classList.add('ok');
-          fb.innerHTML = `✅ <strong>Benar!</strong> ${item.exp}`;
-        } else {
-          fb.classList.add('err');
-          fb.innerHTML = `❌ <strong>Belum tepat.</strong> Jawaban yang benar adalah <strong>${String.fromCharCode(65 + item.ans)}</strong>. ${item.exp}`;
-        }
-      };
-      optBox.appendChild(btn);
-    });
-  }
-
-  function nextBab3Question() {
-    b3Idx++;
-    renderBab3Question();
-  }
-
-  renderBab3Question();
-</script>
+print("Updated index.html successfully, size:", len(html_code))
